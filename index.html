@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji Kidding Me?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* 3D Flip Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Subtle dotted pattern for the front of the cards for a premium feel */
+        .card-front {
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 16px 16px;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 min-h-screen py-12 px-6" x-data="kanjiApp()">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <header class="text-center mb-20 mt-8">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-6 drop-shadow-sm">
+                Kanji Kidding Me?
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-600 font-medium max-w-2xl mx-auto">
+                Because learning character etymology shouldn't require a history degree.
+            </p>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto mb-16 relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="h-6 w-6 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" x-model="searchQuery" placeholder="Search by kanji, meaning, or reading..."
+                class="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 bg-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 transition-all text-lg shadow-sm">
+
+            <!-- Results Counter -->
+            <div class="absolute -bottom-8 right-2 text-sm font-medium text-slate-500" x-show="searchQuery !== ''"
+                x-transition>
+                Showing <span x-text="filteredKanjis.length"></span> results
+            </div>
+        </div>
+
+        <!-- Flashcard Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+            <template x-for="kanji in filteredKanjis" :key="kanji.kanji">
+                <div class="relative w-full h-80 group perspective-1000" @click="kanji.flipped = !kanji.flipped">
+                    <!-- The Card Inner -->
+                    <div class="w-full h-full transition-transform duration-700 transform-style-3d cursor-pointer shadow-xl rounded-3xl"
+                        :class="kanji.flipped ? 'rotate-y-180' : ''">
+
+                        <!-- Front Face -->
+                        <div
+                            class="absolute inset-0 w-full h-full backface-hidden card-front bg-white border border-slate-200 rounded-3xl flex flex-col items-center justify-center transition-colors hover:border-indigo-400 group-hover:shadow-2xl">
+                            <span
+                                class="text-9xl mb-4 font-semibold text-slate-800 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
+                                x-text="kanji.kanji"></span>
+                            <span
+                                class="text-slate-400 font-bold tracking-widest uppercase text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100">Click
+                                to flip</span>
+                        </div>
+
+                        <!-- Back Face -->
+                        <div
+                            class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-slate-900 text-white rounded-3xl p-8 flex flex-col justify-center items-center text-center shadow-2xl border border-slate-700">
+                            <!-- Meaning -->
+                            <h3 class="text-4xl font-bold text-indigo-400 mb-2" x-text="kanji.meaning"></h3>
+                            <!-- Reading -->
+                            <p class="text-lg text-indigo-100 font-mono mb-6 bg-indigo-900/50 py-1 px-4 rounded-full border border-indigo-500/30"
+                                x-text="kanji.reading"></p>
+
+                            <!-- Humorous Origin Story -->
+                            <div class="relative mt-2">
+                                <span
+                                    class="absolute -top-6 -left-3 text-5xl text-slate-700 font-serif opacity-50">"</span>
+                                <p class="text-[1.05rem] text-slate-300 italic relative z-10 leading-relaxed"
+                                    x-text="kanji.origin_story"></p>
+                                <span
+                                    class="absolute -bottom-8 -right-3 text-5xl text-slate-700 font-serif opacity-50">"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-24 text-center text-slate-400 text-sm font-medium">
+            <p>Built with immense sarcasm, zero build tools, and strictly N5 vocabulary.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('kanjiApp', () => ({
+                kanjis: [
+                    { kanji: '一', meaning: 'One', reading: 'ichi', origin_story: 'Just a line. The person who invented this gave up immediately.', flipped: false },
+                    { kanji: '二', meaning: 'Two', reading: 'ni', origin_story: 'Two lines. Sequel to the first line, rarely as good.', flipped: false },
+                    { kanji: '三', meaning: 'Three', reading: 'san', origin_story: 'Three lines. A trilogy nobody asked for.', flipped: false },
+                    { kanji: '四', meaning: 'Four', reading: 'yon / shi', origin_story: 'A box with curtains, hiding from responsibilities.', flipped: false },
+                    { kanji: '五', meaning: 'Five', reading: 'go', origin_story: 'A precarious stack of shelves about to collapse.', flipped: false },
+                    { kanji: '六', meaning: 'Six', reading: 'roku', origin_story: 'A tiny person doing a jumping jack.', flipped: false },
+                    { kanji: '七', meaning: 'Seven', reading: 'nana / shichi', origin_story: 'An upside down "t". Typography gone wrong.', flipped: false },
+                    { kanji: '八', meaning: 'Eight', reading: 'hachi', origin_story: 'A mustache floating in the void.', flipped: false },
+                    { kanji: '九', meaning: 'Nine', reading: 'kyuu / ku', origin_story: 'A person doing a very dramatic lunge.', flipped: false },
+                    { kanji: '十', meaning: 'Ten', reading: 'juu', origin_story: 'A cross. Rest in peace to your free time trying to learn all these.', flipped: false },
+                    { kanji: '百', meaning: 'Hundred', reading: 'hyaku', origin_story: 'The number one squishing a white bug (白) until it pops.', flipped: false },
+                    { kanji: '千', meaning: 'Thousand', reading: 'sen', origin_story: 'A cross with a fancy hat.', flipped: false },
+                    { kanji: '万', meaning: 'Ten Thousand', reading: 'man', origin_story: 'A swastika that realized its mistake mid-draw and tried to change shape.', flipped: false },
+                    { kanji: '円', meaning: 'Yen', reading: 'en', origin_story: 'A window with bars. Your money is trapped.', flipped: false },
+                    { kanji: '日', meaning: 'Sun/Day', reading: 'hi / nichi', origin_story: 'A window with closed blinds so you can rot in bed without guilt.', flipped: false },
+                    { kanji: '月', meaning: 'Moon/Month', reading: 'tsuki / getsu', origin_story: 'A ladder to nowhere, much like your crypto portfolio.', flipped: false },
+                    { kanji: '火', meaning: 'Fire', reading: 'hi / ka', origin_story: 'A person waving their arms while burning alive. Relatable Monday energy.', flipped: false },
+                    { kanji: '水', meaning: 'Water', reading: 'mizu', origin_story: 'A splash caused by throwing your life savings into a fountain.', flipped: false },
+                    { kanji: '木', meaning: 'Tree', reading: 'ki', origin_story: 'A plus sign that grew roots. Mathematical botany.', flipped: false },
+                    { kanji: '金', meaning: 'Gold/Money', reading: 'kane / kin', origin_story: 'An umbrella covering a pile of dirt. Peak luxury.', flipped: false },
+                    { kanji: '土', meaning: 'Earth', reading: 'tsuchi / do', origin_story: 'A cross on the ground marking where your hopes and dreams lie.', flipped: false },
+                    { kanji: '山', meaning: 'Mountain', reading: 'yama', origin_story: 'Just an upside-down pitchfork that got stuck in the ground.', flipped: false },
+                    { kanji: '川', meaning: 'River', reading: 'kawa', origin_story: 'Three lines drawn by someone too lazy to draw actual water.', flipped: false },
+                    { kanji: '人', meaning: 'Person', reading: 'hito / jin', origin_story: 'A person slouching because they are tired of paying taxes.', flipped: false },
+                    { kanji: '男', meaning: 'Man', reading: 'otoko', origin_story: 'A field (田) with power (力). Agrarian patriarchy at its finest.', flipped: false },
+                    { kanji: '女', meaning: 'Woman', reading: 'onna', origin_story: 'Someone aggressively crossing their legs in a cramped subway seat.', flipped: false },
+                    { kanji: '子', meaning: 'Child', reading: 'ko', origin_story: 'A kid with a massive head and arms outstretched asking for your iPad.', flipped: false },
+                    { kanji: '目', meaning: 'Eye', reading: 'me', origin_story: 'A bookshelf with exactly two shelves. Clearly, literacy is not a priority.', flipped: false },
+                    { kanji: '耳', meaning: 'Ear', reading: 'mimi', origin_story: 'A ladder with too many rungs that goes straight into your brain.', flipped: false },
+                    { kanji: '口', meaning: 'Mouth', reading: 'kuchi', origin_story: 'It\'s a box. Because your mouth is basically a pizza delivery slot.', flipped: false },
+                    { kanji: '手', meaning: 'Hand', reading: 'te', origin_story: 'A weird mutated rake missing a prong.', flipped: false },
+                    { kanji: '足', meaning: 'Foot/Leg', reading: 'ashi', origin_story: 'A TV set with a bizarre antenna and a kickstand.', flipped: false },
+                    { kanji: '上', meaning: 'Up', reading: 'ue', origin_story: 'A weather vane pointing up because the roof is leaking.', flipped: false },
+                    { kanji: '下', meaning: 'Down', reading: 'shita', origin_story: 'An icicle threatening to fall on your head.', flipped: false },
+                    { kanji: '中', meaning: 'Middle', reading: 'naka', origin_story: 'A piece of candy on a stick that you\'re not supposed to bite, but you will.', flipped: false },
+                    { kanji: '外', meaning: 'Outside', reading: 'soto', origin_story: 'Someone smoking a cigarette outside because they were banned from the pub.', flipped: false },
+                    { kanji: '右', meaning: 'Right', reading: 'migi', origin_story: 'A mouth (口) complaining about its lack of a left arm.', flipped: false },
+                    { kanji: '左', meaning: 'Left', reading: 'hidari', origin_story: 'Capital I, floating above a construction tool.', flipped: false },
+                    { kanji: '大', meaning: 'Big', reading: 'ookii', origin_story: 'A person (人) stretching their arms out to exaggerate the size of a fish they didn\'t catch.', flipped: false },
+                    { kanji: '小', meaning: 'Small', reading: 'chiisai', origin_story: 'A tiny person making themselves even tinier to avoid being called on in class.', flipped: false },
+                    { kanji: '高', meaning: 'High/Expensive', reading: 'takai', origin_story: 'A tall tower made of discarded Amazon boxes.', flipped: false },
+                    { kanji: '安', meaning: 'Cheap/Safe', reading: 'yasui', origin_story: 'A woman (女) trapped under a roof (宀). Apparently, this means "safe". Problematic.', flipped: false },
+                    { kanji: '新', meaning: 'New', reading: 'atarashii', origin_story: 'Chopping down a tree (木) with an axe (斤) to build a shiny new thing you don\'t need.', flipped: false },
+                    { kanji: '古', meaning: 'Old', reading: 'furui', origin_story: 'A cross sitting on top of a tombstone (口). Literally dead.', flipped: false },
+                    { kanji: '長', meaning: 'Long', reading: 'nagai', origin_story: 'Someone with an impossibly long mullet walking away.', flipped: false },
+                    { kanji: '多', meaning: 'Many', reading: 'ooi', origin_story: 'Two steaks stacked on top of each other. Meat coma.', flipped: false },
+                    { kanji: '少', meaning: 'Few/Little', reading: 'sukunai / sukoshi', origin_story: 'The "small" kanji (小) missing a leg. Tragic.', flipped: false },
+                    { kanji: '早', meaning: 'Early', reading: 'hayai', origin_story: 'A sun (日) balanced on a needle (十). Wake up before you get poked.', flipped: false },
+                    { kanji: '行', meaning: 'Go', reading: 'iku', origin_story: 'Two people aggressively walking past each other without saying hi.', flipped: false },
+                    { kanji: '来', meaning: 'Come', reading: 'kuru / rai', origin_story: 'A tree (木) with two weird glowing fruits.', flipped: false },
+                    { kanji: '食', meaning: 'Eat', reading: 'taberu', origin_story: 'A house with a good roof where you go specifically to consume calories.', flipped: false },
+                    { kanji: '飲', meaning: 'Drink', reading: 'nomu', origin_story: 'A person eating next to someone yawning because conversations at the bar are boring.', flipped: false },
+                    { kanji: '見', meaning: 'See', reading: 'miru', origin_story: 'An eye (目) with two legs running away from the horrors of the internet.', flipped: false },
+                    { kanji: '聞', meaning: 'Hear', reading: 'kiku', origin_story: 'An ear (耳) trapped between two giant saloon doors (門).', flipped: false },
+                    { kanji: '読', meaning: 'Read', reading: 'yomu', origin_story: 'Words (言) being sold (売) for attention. The original clickbait.', flipped: false },
+                    { kanji: '書', meaning: 'Write', reading: 'kaku', origin_story: 'A fancy pen drawing too many horizontal lines.', flipped: false },
+                    { kanji: '話', meaning: 'Speak', reading: 'hanasu', origin_story: 'Words (言) flying out of a mouth (口) with a thousand (千) opinions.', flipped: false },
+                    { kanji: '買', meaning: 'Buy', reading: 'kau', origin_story: 'An eye (目) looking at a table with legs. Ikea shopping trip.', flipped: false },
+                    { kanji: '教', meaning: 'Teach', reading: 'oshieru', origin_story: 'Someone aggressively gesturing at you with a stick (攵) until you learn math.', flipped: false },
+                    { kanji: '休', meaning: 'Rest', reading: 'yasumu', origin_story: 'A person (人) leaning against a tree (木) to avoid doing any actual work. The ultimate slacker.', flipped: false },
+                    { kanji: '立', meaning: 'Stand', reading: 'tatsu', origin_story: 'A person wearing a graduation cap, waiting for their name to be called.', flipped: false },
+                    { kanji: '座', meaning: 'Sit', reading: 'suwaru', origin_story: 'Two people sitting in a plaza (広) on a patch of dirt (土).', flipped: false },
+                    { kanji: '今', meaning: 'Now', reading: 'ima', origin_story: 'A roof (宀) collapsing right this very second.', flipped: false },
+                    { kanji: '時', meaning: 'Time', reading: 'toki / ji', origin_story: 'The sun (日) watching waiting on a temple (寺).', flipped: false },
+                    { kanji: '分', meaning: 'Minute/Part', reading: 'fun / pun', origin_story: 'A sword (刀) slicing an eight (八) in half.', flipped: false },
+                    { kanji: '半', meaning: 'Half', reading: 'han', origin_story: 'Three lines being brutally impaled by a pole.', flipped: false },
+                    { kanji: '午', meaning: 'Noon', reading: 'go', origin_story: 'A stop sign. Take a lunch break.', flipped: false },
+                    { kanji: '前', meaning: 'Before/Front', reading: 'mae', origin_story: 'A butcher chopping meat before the health inspector arrives.', flipped: false },
+                    { kanji: '後', meaning: 'After/Behind', reading: 'ushiro / ato', origin_story: 'Two people walking slowly because they are staring at their phones.', flipped: false },
+                    { kanji: '去', meaning: 'Past/Leave', reading: 'kyo / saru', origin_story: 'Dirt (土) piled over your past mistakes (厶).', flipped: false },
+                    { kanji: '年', meaning: 'Year', reading: 'toshi / nen', origin_story: 'A person struggling to carry a heavy pile of responsibilities.', flipped: false },
+                    { kanji: '毎', meaning: 'Every', reading: 'mai', origin_story: 'A person wearing a fancy hat every single day to cover up a bald spot.', flipped: false },
+                    { kanji: '何', meaning: 'What', reading: 'nani / nan', origin_story: 'A person (人) carrying a ridiculous box (可) and asking "What is this?"', flipped: false },
+                    { kanji: '春', meaning: 'Spring', reading: 'haru', origin_story: 'Three people wearing sunglasses under the sun.', flipped: false },
+                    { kanji: '夏', meaning: 'Summer', reading: 'natsu', origin_story: 'A person with a giant head sweating profusely.', flipped: false },
+                    { kanji: '秋', meaning: 'Autumn', reading: 'aki', origin_story: 'A tree (禾) on fire (火). Yes, autumn leaves are just slow fire.', flipped: false },
+                    { kanji: '冬', meaning: 'Winter', reading: 'fuyu', origin_story: 'Walking on two slippery icicles.', flipped: false },
+                    { kanji: '北', meaning: 'North', reading: 'kita', origin_story: 'Two people sitting back to back because the thermostat is too low.', flipped: false },
+                    { kanji: '南', meaning: 'South', reading: 'minami', origin_story: 'A fenced area with a single sheep inside.', flipped: false },
+                    { kanji: '東', meaning: 'East', reading: 'higashi', origin_story: 'The sun (日) tangled in a tree (木).', flipped: false },
+                    { kanji: '西', meaning: 'West', reading: 'nishi', origin_story: 'A weird box with curtains drawn tight to block the afternoon sun.', flipped: false },
+                    { kanji: '雨', meaning: 'Rain', reading: 'ame', origin_story: 'A window looking out at four chunky raindrops.', flipped: false },
+                    { kanji: '天', meaning: 'Sky/Heaven', reading: 'ten', origin_story: 'A person (大) carrying a massive plank on their head.', flipped: false },
+                    { kanji: '空', meaning: 'Sky/Empty', reading: 'sora', origin_story: 'A hole (穴) where your motivation used to be.', flipped: false },
+                    { kanji: '気', meaning: 'Spirit/Air', reading: 'ki', origin_story: 'Steam rising from a pot of rice (米) you forgot you were cooking.', flipped: false },
+                    { kanji: '車', meaning: 'Car', reading: 'kuruma', origin_story: 'A top-down view of a really bad shopping cart.', flipped: false },
+                    { kanji: '電', meaning: 'Electricity', reading: 'den', origin_story: 'Rain (雨) falling on a tangled power cord.', flipped: false },
+                    { kanji: '馬', meaning: 'Horse', reading: 'uma', origin_story: 'A creature with four legs and an absolutely fabulous mane.', flipped: false },
+                    { kanji: '魚', meaning: 'Fish', reading: 'sakana', origin_story: 'A tiny fish bound by a rope, cooking over four flames (灬). Dark.', flipped: false },
+                    { kanji: '鳥', meaning: 'Bird', reading: 'tori', origin_story: 'A crow perching on a single branch.', flipped: false },
+                    { kanji: '語', meaning: 'Language', reading: 'go', origin_story: 'Words (言) spoken by five (五) mouths (口) simultaneously. A literal loud room.', flipped: false },
+                    { kanji: '名', meaning: 'Name', reading: 'namae', origin_story: 'The moon (夕) talking to a mouth (口).', flipped: false },
+                    { kanji: '店', meaning: 'Shop', reading: 'mise', origin_story: 'A building where your fortune gets swallowed.', flipped: false },
+                    { kanji: '駅', meaning: 'Station', reading: 'eki', origin_story: 'A horse (馬) looking at a ruler (尺) measuring the delays.', flipped: false },
+                    { kanji: '道', meaning: 'Road', reading: 'michi', origin_story: 'A head (首) rolling along a path. Medieval times were rough.', flipped: false },
+                    { kanji: '社', meaning: 'Company', reading: 'sha / yashiro', origin_story: 'Pouring your energy into the dirt for corporate gods.', flipped: false },
+                    { kanji: '国', meaning: 'Country', reading: 'kuni', origin_story: 'A king (王) trapped in a box (囗) calling the shots.', flipped: false },
+                    { kanji: '白', meaning: 'White', reading: 'shiro', origin_story: 'A sun (日) with a single grey hair on top.', flipped: false },
+                    { kanji: '黒', meaning: 'Black', reading: 'kuro', origin_story: 'A computer monitor (里) sitting over a roaring fire (灬). My setup rendering a 4k video.', flipped: false },
+                    { kanji: '赤', meaning: 'Red', reading: 'aka', origin_story: 'Someone wearing a giant backpack standing over a campfire (灬).', flipped: false },
+                    { kanji: '青', meaning: 'Blue', reading: 'ao', origin_story: 'The moon (月) rising over a polluted factory.', flipped: false },
+                    { kanji: '入', meaning: 'Enter', reading: 'iru / hairu', origin_story: 'An inverted "V" attempting to blend in with the normal letters.', flipped: false },
+                    { kanji: '出', meaning: 'Exit', reading: 'deru', origin_story: 'Two mountain peaks stacked uncomfortably on top of each other.', flipped: false },
+                    { kanji: '友', meaning: 'Friend', reading: 'tomo', origin_story: 'Two hands reaching out to borrow money.', flipped: false },
+                    { kanji: '校', meaning: 'School', reading: 'kou', origin_story: 'A tree (木) next to a building where creativity goes to die (交).', flipped: false },
+                    { kanji: '勉', meaning: 'Study', reading: 'ben', origin_story: 'Using force (力) to give a rabbit a weird massage.', flipped: false },
+                    { kanji: '母', meaning: 'Mother', reading: 'haha', origin_story: 'Two weird squares with dots in them. Use your imagination.', flipped: false },
+                    { kanji: '父', meaning: 'Father', reading: 'chichi', origin_story: 'Two crossed swords representing dad lore.', flipped: false },
+                    { kanji: '学', meaning: 'Study/Learn', reading: 'manabu', origin_story: 'Three kids wearing graduation caps trying to look smart.', flipped: false },
+                    { kanji: '先', meaning: 'Before/Ahead', reading: 'saki / sen', origin_story: 'Moving your legs (儿) forward through the dirt (土).', flipped: false },
+                    { kanji: '生', meaning: 'Life/Birth', reading: 'ikiru', origin_story: 'A sapling sprouting from the ground ready to pay taxes.', flipped: false },
+                ],
+                searchQuery: '',
+                get filteredKanjis() {
+                    if (this.searchQuery === '') {
+                        return this.kanjis;
+                    }
+                    const query = this.searchQuery.toLowerCase();
+                    return this.kanjis.filter(k =>
+                        k.kanji.toLowerCase().includes(query) ||
+                        k.meaning.toLowerCase().includes(query) ||
+                        k.reading.toLowerCase().includes(query)
+                    );
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>
