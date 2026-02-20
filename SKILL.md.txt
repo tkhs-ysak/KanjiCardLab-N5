@@ -1,0 +1,5 @@
+# Antigravity Agent Rules
+
+## Git Rules
+- Autonomously run `git add .` and `git commit` after completing any code modifications or feature additions, without waiting for explicit user instructions.
+- Write clear and descriptive commit messages that easily explain what changes were made.
