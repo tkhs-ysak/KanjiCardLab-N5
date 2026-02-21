@@ -41,6 +41,19 @@
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 16px 16px;
         }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
     </style>
 </head>
 
@@ -90,7 +103,17 @@
         </div>
 
         <!-- Quiz Section -->
-        <div class="max-w-2xl mx-auto mb-16 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center">
+        <div
+            class="relative max-w-2xl mx-auto mb-16 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center">
+            <button x-show="quiz.active && currentKanjiObj" @click.prevent.stop="toggleBookmark(currentKanjiObj)"
+                class="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 transition-colors z-10 group/btn shrink-0 flex items-center justify-center">
+                <svg class="w-8 h-8 transition-all duration-300 group-hover/btn:scale-110"
+                    :class="currentKanjiObj?.bookmarked ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200 fill-none stroke-current'"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+            </button>
             <h2 class="text-2xl font-bold mb-4 text-slate-800">Mini Quiz</h2>
             <div x-show="!quiz.active">
                 <button @click="startQuiz()"
@@ -98,8 +121,9 @@
                     Quiz</button>
             </div>
             <div x-show="quiz.active">
-                <div class="text-7xl font-sans mb-6 text-slate-800"
-                    x-text="quiz.questions[quiz.currentIndex] ? quiz.questions[quiz.currentIndex].kanji : ''">
+                <div class="flex justify-center items-center mb-6 relative">
+                    <div class="text-7xl font-sans text-slate-800"
+                        x-text="quiz.questions[quiz.currentIndex] ? quiz.questions[quiz.currentIndex].kanji : ''"></div>
                 </div>
                 <input x-ref="quizInput" type="text" x-model="quiz.answer" @keyup.enter="handleEnter()"
                     :readonly="quiz.message !== ''" placeholder="Type meaning in English..."
@@ -112,8 +136,7 @@
                 <div class="mt-6 text-2xl font-bold"
                     :class="quiz.message === 'Correct!' ? 'text-green-500' : 'text-red-500'" x-text="quiz.message">
                 </div>
-                <div class="mt-2 text-lg text-slate-600 font-medium"
-                    x-show="quiz.message && quiz.message !== 'Correct!'">
+                <div class="mt-2 text-lg text-slate-600 font-medium" x-show="quiz.message">
                     Answer: <span x-text="quiz.questions[quiz.currentIndex]?.answers.join(', ')"></span>
                 </div>
             </div>
@@ -150,10 +173,9 @@
 
                         <!-- Back Face -->
                         <div
-                            class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white text-slate-800 rounded-3xl p-8 flex flex-col justify-center items-center text-center shadow-2xl border border-slate-200">
-                            <!-- Bookmark Star -->
+                            class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white text-slate-800 rounded-3xl p-6 flex flex-col justify-start items-center text-center shadow-2xl border border-slate-200 overflow-y-auto no-scrollbar">
                             <button @click.prevent.stop="toggleBookmark(kanji)"
-                                class="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 transition-colors z-10 group/btn">
+                                class="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 transition-colors z-10 group/btn shrink-0">
                                 <svg class="w-7 h-7 transition-all duration-300 group-hover/btn:scale-110"
                                     :class="kanji.bookmarked ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200 fill-none stroke-current'"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -161,146 +183,154 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </button>
-                            <!-- Meaning -->
-                            <h3 class="text-4xl font-bold text-black mb-2" x-text="kanji.meaning"></h3>
-                            <!-- Reading -->
-                            <p class="text-lg text-black font-mono mb-6 bg-slate-100 py-1 px-4 rounded-full border border-slate-300"
-                                x-text="kanji.reading"></p>
-
-                            <!-- Humorous Origin Story -->
-                            <div class="relative mt-2">
-                                <span class="absolute -top-6 -left-3 text-5xl text-slate-200 font-serif">"</span>
-                                <p class="text-[1.05rem] text-slate-600 italic relative z-10 leading-relaxed"
+                            <h3 class="text-3xl font-bold text-black mb-3 mt-2 leading-tight shrink-0"
+                                x-text="kanji.meaning"></h3>
+                            <div class="flex flex-col gap-1 w-full mb-3 shrink-0">
+                                <p class="text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest">Readings</p>
+                                <p class="text-sm text-slate-700 font-mono bg-slate-50 py-1.5 px-3 rounded-lg border border-slate-200"
+                                    x-text="kanji.reading"></p>
+                            </div>
+                            <div class="flex flex-col gap-1 w-full mb-3 text-left shrink-0" x-show="kanji.example_ja">
+                                <p class="text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest text-center">
+                                    Example</p>
+                                <div class="bg-blue-50/40 border border-blue-100 p-3 rounded-xl">
+                                    <p class="font-bold text-blue-900 text-lg mb-0.5" x-text="kanji.example_ja"></p>
+                                    <p class="text-xs text-blue-800/80 mb-1 font-mono" x-text="kanji.example_read"></p>
+                                    <p class="text-sm text-slate-600 leading-snug" x-text="kanji.example_en"></p>
+                                </div>
+                            </div>
+                            <div class="relative mt-auto pt-3 border-t border-slate-100 w-full shrink-0">
+                                <p class="text-[0.90rem] text-slate-500 italic leading-snug"
                                     x-text="kanji.origin_story"></p>
-                                <span class="absolute -bottom-8 -right-3 text-5xl text-slate-200 font-serif">"</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </template>
         </div>
+        </template>
+    </div>
 
-        <!-- Footer -->
-        <footer class="mt-24 text-center text-slate-400 text-sm font-medium">
-            <p>Built with immense sarcasm, zero build tools, and strictly N5 vocabulary.</p>
-        </footer>
+    <!-- Footer -->
+    <footer class="mt-24 text-center text-slate-400 text-sm font-medium">
+        <p>Built with immense sarcasm, zero build tools, and strictly N5 vocabulary.</p>
+    </footer>
     </div>
 
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('kanjiApp', () => ({
                 kanjis: [
-                    { kanji: '一', meaning: 'One', reading: 'ichi', origin_story: 'Just a line. The person who invented this gave up immediately.', flipped: false },
-                    { kanji: '二', meaning: 'Two', reading: 'ni', origin_story: 'Two lines. Sequel to the first line, rarely as good.', flipped: false },
-                    { kanji: '三', meaning: 'Three', reading: 'san', origin_story: 'Three lines. A trilogy nobody asked for.', flipped: false },
-                    { kanji: '四', meaning: 'Four', reading: 'yon / shi', origin_story: 'A box with curtains, hiding from responsibilities.', flipped: false },
-                    { kanji: '五', meaning: 'Five', reading: 'go', origin_story: 'A precarious stack of shelves about to collapse.', flipped: false },
-                    { kanji: '六', meaning: 'Six', reading: 'roku', origin_story: 'A tiny person doing a jumping jack.', flipped: false },
-                    { kanji: '七', meaning: 'Seven', reading: 'nana / shichi', origin_story: 'An upside down "t". Typography gone wrong.', flipped: false },
-                    { kanji: '八', meaning: 'Eight', reading: 'hachi', origin_story: 'A mustache floating in the void.', flipped: false },
-                    { kanji: '九', meaning: 'Nine', reading: 'kyuu / ku', origin_story: 'A person doing a very dramatic lunge.', flipped: false },
-                    { kanji: '十', meaning: 'Ten', reading: 'juu', origin_story: 'A cross. Rest in peace to your free time trying to learn all these.', flipped: false },
-                    { kanji: '百', meaning: 'Hundred', reading: 'hyaku', origin_story: 'The number one squishing a white bug (白) until it pops.', flipped: false },
-                    { kanji: '千', meaning: 'Thousand', reading: 'sen', origin_story: 'A cross with a fancy hat.', flipped: false },
-                    { kanji: '万', meaning: 'Ten Thousand', reading: 'man', origin_story: 'A swastika that realized its mistake mid-draw and tried to change shape.', flipped: false },
-                    { kanji: '円', meaning: 'Yen', reading: 'en', origin_story: 'A window with bars. Your money is trapped.', flipped: false },
-                    { kanji: '日', meaning: 'Sun/Day', reading: 'hi / nichi', origin_story: 'A window with closed blinds so you can rot in bed without guilt.', flipped: false },
-                    { kanji: '月', meaning: 'Moon/Month', reading: 'tsuki / getsu', origin_story: 'A ladder to nowhere, much like your crypto portfolio.', flipped: false },
-                    { kanji: '火', meaning: 'Fire', reading: 'hi / ka', origin_story: 'A person waving their arms while burning alive. Relatable Monday energy.', flipped: false },
-                    { kanji: '水', meaning: 'Water', reading: 'mizu', origin_story: 'A splash caused by throwing your life savings into a fountain.', flipped: false },
-                    { kanji: '木', meaning: 'Tree', reading: 'ki', origin_story: 'A plus sign that grew roots. Mathematical botany.', flipped: false },
-                    { kanji: '金', meaning: 'Gold/Money', reading: 'kane / kin', origin_story: 'An umbrella covering a pile of dirt. Peak luxury.', flipped: false },
-                    { kanji: '土', meaning: 'Earth', reading: 'tsuchi / do', origin_story: 'A cross on the ground marking where your hopes and dreams lie.', flipped: false },
-                    { kanji: '山', meaning: 'Mountain', reading: 'yama', origin_story: 'Just an upside-down pitchfork that got stuck in the ground.', flipped: false },
-                    { kanji: '川', meaning: 'River', reading: 'kawa', origin_story: 'Three lines drawn by someone too lazy to draw actual water.', flipped: false },
-                    { kanji: '人', meaning: 'Person', reading: 'hito / jin', origin_story: 'A person slouching because they are tired of paying taxes.', flipped: false },
-                    { kanji: '男', meaning: 'Man', reading: 'otoko', origin_story: 'A field (田) with power (力). Agrarian patriarchy at its finest.', flipped: false },
-                    { kanji: '女', meaning: 'Woman', reading: 'onna', origin_story: 'Someone aggressively crossing their legs in a cramped subway seat.', flipped: false },
-                    { kanji: '子', meaning: 'Child', reading: 'ko', origin_story: 'A kid with a massive head and arms outstretched asking for your iPad.', flipped: false },
-                    { kanji: '目', meaning: 'Eye', reading: 'me', origin_story: 'A bookshelf with exactly two shelves. Clearly, literacy is not a priority.', flipped: false },
-                    { kanji: '耳', meaning: 'Ear', reading: 'mimi', origin_story: 'A ladder with too many rungs that goes straight into your brain.', flipped: false },
-                    { kanji: '口', meaning: 'Mouth', reading: 'kuchi', origin_story: 'It\'s a box. Because your mouth is basically a pizza delivery slot.', flipped: false },
-                    { kanji: '手', meaning: 'Hand', reading: 'te', origin_story: 'A weird mutated rake missing a prong.', flipped: false },
-                    { kanji: '足', meaning: 'Foot/Leg', reading: 'ashi', origin_story: 'A TV set with a bizarre antenna and a kickstand.', flipped: false },
-                    { kanji: '上', meaning: 'Up', reading: 'ue', origin_story: 'A weather vane pointing up because the roof is leaking.', flipped: false },
-                    { kanji: '下', meaning: 'Down', reading: 'shita', origin_story: 'An icicle threatening to fall on your head.', flipped: false },
-                    { kanji: '中', meaning: 'Middle', reading: 'naka', origin_story: 'A piece of candy on a stick that you\'re not supposed to bite, but you will.', flipped: false },
-                    { kanji: '外', meaning: 'Outside', reading: 'soto', origin_story: 'Someone smoking a cigarette outside because they were banned from the pub.', flipped: false },
-                    { kanji: '右', meaning: 'Right', reading: 'migi', origin_story: 'A mouth (口) complaining about its lack of a left arm.', flipped: false },
-                    { kanji: '左', meaning: 'Left', reading: 'hidari', origin_story: 'Capital I, floating above a construction tool.', flipped: false },
-                    { kanji: '大', meaning: 'Big', reading: 'ookii', origin_story: 'A person (人) stretching their arms out to exaggerate the size of a fish they didn\'t catch.', flipped: false },
-                    { kanji: '小', meaning: 'Small', reading: 'chiisai', origin_story: 'A tiny person making themselves even tinier to avoid being called on in class.', flipped: false },
-                    { kanji: '高', meaning: 'High/Expensive', reading: 'takai', origin_story: 'A tall tower made of discarded Amazon boxes.', flipped: false },
-                    { kanji: '安', meaning: 'Cheap/Safe', reading: 'yasui', origin_story: 'A woman (女) trapped under a roof (宀). Apparently, this means "safe". Problematic.', flipped: false },
-                    { kanji: '新', meaning: 'New', reading: 'atarashii', origin_story: 'Chopping down a tree (木) with an axe (斤) to build a shiny new thing you don\'t need.', flipped: false },
-                    { kanji: '古', meaning: 'Old', reading: 'furui', origin_story: 'A cross sitting on top of a tombstone (口). Literally dead.', flipped: false },
-                    { kanji: '長', meaning: 'Long', reading: 'nagai', origin_story: 'Someone with an impossibly long mullet walking away.', flipped: false },
-                    { kanji: '多', meaning: 'Many', reading: 'ooi', origin_story: 'Two steaks stacked on top of each other. Meat coma.', flipped: false },
-                    { kanji: '少', meaning: 'Few/Little', reading: 'sukunai / sukoshi', origin_story: 'The "small" kanji (小) missing a leg. Tragic.', flipped: false },
-                    { kanji: '早', meaning: 'Early', reading: 'hayai', origin_story: 'A sun (日) balanced on a needle (十). Wake up before you get poked.', flipped: false },
-                    { kanji: '行', meaning: 'Go', reading: 'iku', origin_story: 'Two people aggressively walking past each other without saying hi.', flipped: false },
-                    { kanji: '来', meaning: 'Come', reading: 'kuru / rai', origin_story: 'A tree (木) with two weird glowing fruits.', flipped: false },
-                    { kanji: '食', meaning: 'Eat', reading: 'taberu', origin_story: 'A house with a good roof where you go specifically to consume calories.', flipped: false },
-                    { kanji: '飲', meaning: 'Drink', reading: 'nomu', origin_story: 'A person eating next to someone yawning because conversations at the bar are boring.', flipped: false },
-                    { kanji: '見', meaning: 'See', reading: 'miru', origin_story: 'An eye (目) with two legs running away from the horrors of the internet.', flipped: false },
-                    { kanji: '聞', meaning: 'Hear', reading: 'kiku', origin_story: 'An ear (耳) trapped between two giant saloon doors (門).', flipped: false },
-                    { kanji: '読', meaning: 'Read', reading: 'yomu', origin_story: 'Words (言) being sold (売) for attention. The original clickbait.', flipped: false },
-                    { kanji: '書', meaning: 'Write', reading: 'kaku', origin_story: 'A fancy pen drawing too many horizontal lines.', flipped: false },
-                    { kanji: '話', meaning: 'Speak', reading: 'hanasu', origin_story: 'Words (言) flying out of a mouth (口) with a thousand (千) opinions.', flipped: false },
-                    { kanji: '買', meaning: 'Buy', reading: 'kau', origin_story: 'An eye (目) looking at a table with legs. Ikea shopping trip.', flipped: false },
-                    { kanji: '教', meaning: 'Teach', reading: 'oshieru', origin_story: 'Someone aggressively gesturing at you with a stick (攵) until you learn math.', flipped: false },
-                    { kanji: '休', meaning: 'Rest', reading: 'yasumu', origin_story: 'A person (人) leaning against a tree (木) to avoid doing any actual work. The ultimate slacker.', flipped: false },
-                    { kanji: '立', meaning: 'Stand', reading: 'tatsu', origin_story: 'A person wearing a graduation cap, waiting for their name to be called.', flipped: false },
-                    { kanji: '座', meaning: 'Sit', reading: 'suwaru', origin_story: 'Two people sitting in a plaza (広) on a patch of dirt (土).', flipped: false },
-                    { kanji: '今', meaning: 'Now', reading: 'ima', origin_story: 'A roof (宀) collapsing right this very second.', flipped: false },
-                    { kanji: '時', meaning: 'Time', reading: 'toki / ji', origin_story: 'The sun (日) watching waiting on a temple (寺).', flipped: false },
-                    { kanji: '分', meaning: 'Minute/Part', reading: 'fun / pun', origin_story: 'A sword (刀) slicing an eight (八) in half.', flipped: false },
-                    { kanji: '半', meaning: 'Half', reading: 'han', origin_story: 'Three lines being brutally impaled by a pole.', flipped: false },
-                    { kanji: '午', meaning: 'Noon', reading: 'go', origin_story: 'A stop sign. Take a lunch break.', flipped: false },
-                    { kanji: '前', meaning: 'Before/Front', reading: 'mae', origin_story: 'A butcher chopping meat before the health inspector arrives.', flipped: false },
-                    { kanji: '後', meaning: 'After/Behind', reading: 'ushiro / ato', origin_story: 'Two people walking slowly because they are staring at their phones.', flipped: false },
-                    { kanji: '去', meaning: 'Past/Leave', reading: 'kyo / saru', origin_story: 'Dirt (土) piled over your past mistakes (厶).', flipped: false },
-                    { kanji: '年', meaning: 'Year', reading: 'toshi / nen', origin_story: 'A person struggling to carry a heavy pile of responsibilities.', flipped: false },
-                    { kanji: '毎', meaning: 'Every', reading: 'mai', origin_story: 'A person wearing a fancy hat every single day to cover up a bald spot.', flipped: false },
-                    { kanji: '何', meaning: 'What', reading: 'nani / nan', origin_story: 'A person (人) carrying a ridiculous box (可) and asking "What is this?"', flipped: false },
-                    { kanji: '春', meaning: 'Spring', reading: 'haru', origin_story: 'Three people wearing sunglasses under the sun.', flipped: false },
-                    { kanji: '夏', meaning: 'Summer', reading: 'natsu', origin_story: 'A person with a giant head sweating profusely.', flipped: false },
-                    { kanji: '秋', meaning: 'Autumn', reading: 'aki', origin_story: 'A tree (禾) on fire (火). Yes, autumn leaves are just slow fire.', flipped: false },
-                    { kanji: '冬', meaning: 'Winter', reading: 'fuyu', origin_story: 'Walking on two slippery icicles.', flipped: false },
-                    { kanji: '北', meaning: 'North', reading: 'kita', origin_story: 'Two people sitting back to back because the thermostat is too low.', flipped: false },
-                    { kanji: '南', meaning: 'South', reading: 'minami', origin_story: 'A fenced area with a single sheep inside.', flipped: false },
-                    { kanji: '東', meaning: 'East', reading: 'higashi', origin_story: 'The sun (日) tangled in a tree (木).', flipped: false },
-                    { kanji: '西', meaning: 'West', reading: 'nishi', origin_story: 'A weird box with curtains drawn tight to block the afternoon sun.', flipped: false },
-                    { kanji: '雨', meaning: 'Rain', reading: 'ame', origin_story: 'A window looking out at four chunky raindrops.', flipped: false },
-                    { kanji: '天', meaning: 'Sky/Heaven', reading: 'ten', origin_story: 'A person (大) carrying a massive plank on their head.', flipped: false },
-                    { kanji: '空', meaning: 'Sky/Empty', reading: 'sora', origin_story: 'A hole (穴) where your motivation used to be.', flipped: false },
-                    { kanji: '気', meaning: 'Spirit/Air', reading: 'ki', origin_story: 'Steam rising from a pot of rice (米) you forgot you were cooking.', flipped: false },
-                    { kanji: '車', meaning: 'Car', reading: 'kuruma', origin_story: 'A top-down view of a really bad shopping cart.', flipped: false },
-                    { kanji: '電', meaning: 'Electricity', reading: 'den', origin_story: 'Rain (雨) falling on a tangled power cord.', flipped: false },
-                    { kanji: '馬', meaning: 'Horse', reading: 'uma', origin_story: 'A creature with four legs and an absolutely fabulous mane.', flipped: false },
-                    { kanji: '魚', meaning: 'Fish', reading: 'sakana', origin_story: 'A tiny fish bound by a rope, cooking over four flames (灬). Dark.', flipped: false },
-                    { kanji: '鳥', meaning: 'Bird', reading: 'tori', origin_story: 'A crow perching on a single branch.', flipped: false },
-                    { kanji: '語', meaning: 'Language', reading: 'go', origin_story: 'Words (言) spoken by five (五) mouths (口) simultaneously. A literal loud room.', flipped: false },
-                    { kanji: '名', meaning: 'Name', reading: 'namae', origin_story: 'The moon (夕) talking to a mouth (口).', flipped: false },
-                    { kanji: '店', meaning: 'Shop', reading: 'mise', origin_story: 'A building where your fortune gets swallowed.', flipped: false },
-                    { kanji: '駅', meaning: 'Station', reading: 'eki', origin_story: 'A horse (馬) looking at a ruler (尺) measuring the delays.', flipped: false },
-                    { kanji: '道', meaning: 'Road', reading: 'michi', origin_story: 'A head (首) rolling along a path. Medieval times were rough.', flipped: false },
-                    { kanji: '社', meaning: 'Company', reading: 'sha / yashiro', origin_story: 'Pouring your energy into the dirt for corporate gods.', flipped: false },
-                    { kanji: '国', meaning: 'Country', reading: 'kuni', origin_story: 'A king (王) trapped in a box (囗) calling the shots.', flipped: false },
-                    { kanji: '白', meaning: 'White', reading: 'shiro', origin_story: 'A sun (日) with a single grey hair on top.', flipped: false },
-                    { kanji: '黒', meaning: 'Black', reading: 'kuro', origin_story: 'A computer monitor (里) sitting over a roaring fire (灬). My setup rendering a 4k video.', flipped: false },
-                    { kanji: '赤', meaning: 'Red', reading: 'aka', origin_story: 'Someone wearing a giant backpack standing over a campfire (灬).', flipped: false },
-                    { kanji: '青', meaning: 'Blue', reading: 'ao', origin_story: 'The moon (月) rising over a polluted factory.', flipped: false },
-                    { kanji: '入', meaning: 'Enter', reading: 'iru / hairu', origin_story: 'An inverted "V" attempting to blend in with the normal letters.', flipped: false },
-                    { kanji: '出', meaning: 'Exit', reading: 'deru', origin_story: 'Two mountain peaks stacked uncomfortably on top of each other.', flipped: false },
-                    { kanji: '友', meaning: 'Friend', reading: 'tomo', origin_story: 'Two hands reaching out to borrow money.', flipped: false },
-                    { kanji: '校', meaning: 'School', reading: 'kou', origin_story: 'A tree (木) next to a building where creativity goes to die (交).', flipped: false },
-                    { kanji: '勉', meaning: 'Study', reading: 'ben', origin_story: 'Using force (力) to give a rabbit a weird massage.', flipped: false },
-                    { kanji: '母', meaning: 'Mother', reading: 'haha', origin_story: 'Two weird squares with dots in them. Use your imagination.', flipped: false },
-                    { kanji: '父', meaning: 'Father', reading: 'chichi', origin_story: 'Two crossed swords representing dad lore.', flipped: false },
-                    { kanji: '学', meaning: 'Study/Learn', reading: 'manabu', origin_story: 'Three kids wearing graduation caps trying to look smart.', flipped: false },
-                    { kanji: '先', meaning: 'Before/Ahead', reading: 'saki / sen', origin_story: 'Moving your legs (儿) forward through the dirt (土).', flipped: false },
-                    { kanji: '生', meaning: 'Life/Birth', reading: 'ikiru', origin_story: 'A sapling sprouting from the ground ready to pay taxes.', flipped: false },
+                    { kanji: '一', meaning: "One", reading: "ichi, itsu / hito-, hito.tsu", origin_story: "Just a line. The person who invented this gave up immediately.", example_ja: "\u4e00\u65e5", example_read: "tsuitachi / ichinichi", example_en: "First day of the month / One day" },
+                    { kanji: '二', meaning: "Two", reading: "ni, ji / futa, futa.tsu", origin_story: "Two lines. Sequel to the first line, rarely as good.", example_ja: "\u4e8c\u4eba", example_read: "futari", example_en: "Two people" },
+                    { kanji: '三', meaning: "Three", reading: "san / mi, mi.tsu, mit.tsu", origin_story: "Three lines. A trilogy nobody asked for.", example_ja: "\u4e09\u65e5\u6708", example_read: "mikazuki", example_en: "Crescent moon (3rd-day moon)" },
+                    { kanji: '四', meaning: "Four", reading: "shi / yon, yo, yo.tsu, yot.tsu", origin_story: "A box with curtains, hiding from responsibilities.", example_ja: "\u56db\u5b63", example_read: "shiki", example_en: "Four seasons" },
+                    { kanji: '五', meaning: "Five", reading: "go / itsu, itsu.tsu", origin_story: "A precarious stack of shelves about to collapse.", example_ja: "\u4e94\u611f", example_read: "gokan", example_en: "The five senses" },
+                    { kanji: '六', meaning: "Six", reading: "roku, riku / mu, mu.tsu, mut.tsu", origin_story: "A tiny person doing a jumping jack.", example_ja: "\u516d\u672c\u6728", example_read: "Roppongi", example_en: "Roppongi (place name)" },
+                    { kanji: '七', meaning: "Seven", reading: "shichi / nana, nana.tsu", origin_story: "An upside down \"t\". Typography gone wrong.", example_ja: "\u4e03\u5915", example_read: "tanabata", example_en: "Star Festival" },
+                    { kanji: '八', meaning: "Eight", reading: "hachi / ya, ya.tsu, yat.tsu, you", origin_story: "A mustache floating in the void.", example_ja: "\u516b\u767e\u5c4b", example_read: "yaoya", example_en: "Greengrocer" },
+                    { kanji: '九', meaning: "Nine", reading: "kyuu, ku / kokono, kokono.tsu", origin_story: "A person doing a very dramatic lunge.", example_ja: "\u4e5d\u5dde", example_read: "Kyuushuu", example_en: "Kyushu (island)" },
+                    { kanji: '十', meaning: "Ten", reading: "juu, ji, to, too", origin_story: "A cross. Rest in peace to your free time trying to learn all these.", example_ja: "\u5341\u5206", example_read: "juubun", example_en: "Enough / Sufficient" },
+                    { kanji: '百', meaning: "Hundred", reading: "hyaku, byaku / momo", origin_story: "The number one squishing a white bug (\u767d) until it pops.", example_ja: "\u767e\u8ca8\u5e97", example_read: "hyakkaten", example_en: "Department store" },
+                    { kanji: '千', meaning: "Thousand", reading: "sen / chi", origin_story: "A cross with a fancy hat.", example_ja: "\u5343\u8449", example_read: "Chiba", example_en: "Chiba (prefecture, lit. Thousand leaves)" },
+                    { kanji: '万', meaning: "Ten Thousand, Many", reading: "man, ban / yorozu", origin_story: "A swastika that realized its mistake mid-draw and tried to change shape.", example_ja: "\u4e07\u6b73", example_read: "banzai", example_en: "Hurrah / Long life" },
+                    { kanji: '円', meaning: "Yen, Circle, Round", reading: "en / maru.i", origin_story: "A window with bars. Your money is trapped.", example_ja: "\u5186\u6ed1", example_read: "enkatsu", example_en: "Smooth / Unhindered" },
+                    { kanji: '日', meaning: "Sun, Day, Japan", reading: "nichi, jitsu / hi, -bi, -ka", origin_story: "A window with closed blinds so you can rot in bed without guilt.", example_ja: "\u65e5\u66dc\u65e5", example_read: "nichiyoubi", example_en: "Sunday" },
+                    { kanji: '月', meaning: "Moon, Month", reading: "getsu, gatsu / tsuki", origin_story: "A ladder to nowhere, much like your crypto portfolio.", example_ja: "\u4eca\u6708", example_read: "kongetsu", example_en: "This month" },
+                    { kanji: '火', meaning: "Fire", reading: "ka / hi, -bi, ho-", origin_story: "A person waving their arms while burning alive. Relatable Monday energy.", example_ja: "\u82b1\u706b", example_read: "hanabi", example_en: "Fireworks" },
+                    { kanji: '水', meaning: "Water", reading: "sui / mizu", origin_story: "A splash caused by throwing your life savings into a fountain.", example_ja: "\u6c34\u661f", example_read: "suisei", example_en: "Mercury (planet)" },
+                    { kanji: '木', meaning: "Tree, Wood", reading: "boku, moku / ki, ko-", origin_story: "A plus sign that grew roots. Mathematical botany.", example_ja: "\u6728\u6f0f\u308c\u65e5", example_read: "komorebi", example_en: "Sunlight filtering through trees" },
+                    { kanji: '金', meaning: "Gold, Money, Metal", reading: "kin, kon, gon / kane, kana-", origin_story: "An umbrella covering a pile of dirt. Peak luxury.", example_ja: "\u304a\u91d1\u6301\u3061", example_read: "okanemochi", example_en: "Rich person" },
+                    { kanji: '土', meaning: "Earth, Soil, Ground", reading: "do, to / tsuchi", origin_story: "A cross on the ground marking where your hopes and dreams lie.", example_ja: "\u304a\u571f\u7523", example_read: "omiyage", example_en: "Souvenir" },
+                    { kanji: '山', meaning: "Mountain", reading: "san, zan / yama", origin_story: "Just an upside-down pitchfork that got stuck in the ground.", example_ja: "\u5bcc\u58eb\u5c71", example_read: "Fujisan", example_en: "Mount Fuji" },
+                    { kanji: '川', meaning: "River, Stream", reading: "sen / kawa", origin_story: "Three lines drawn by someone too lazy to draw actual water.", example_ja: "\u5929\u306e\u5ddd", example_read: "amanogawa", example_en: "The Milky Way" },
+                    { kanji: '人', meaning: "Person, Human", reading: "jin, nin / hito", origin_story: "A person slouching because they are tired of paying taxes.", example_ja: "\u4eba\u9593", example_read: "ningen", example_en: "Human being" },
+                    { kanji: '男', meaning: "Man, Male", reading: "dan, nan / otoko", origin_story: "A field (\u7530) with power (\u529b). Agrarian patriarchy at its finest.", example_ja: "\u7537\u306e\u5b50", example_read: "otokonoko", example_en: "Boy" },
+                    { kanji: '女', meaning: "Woman, Female", reading: "jo, nyo, nyou / onna, me", origin_story: "Someone aggressively crossing their legs in a cramped subway seat.", example_ja: "\u5973\u795e", example_read: "megami", example_en: "Goddess" },
+                    { kanji: '子', meaning: "Child, Offspring", reading: "shi, su, tsu / ko, -ko", origin_story: "A kid with a massive head and arms outstretched asking for your iPad.", example_ja: "\u8ff7\u5b50", example_read: "maigo", example_en: "Lost child" },
+                    { kanji: '目', meaning: "Eye, Vision", reading: "moku, boku / me, -me, ma-", origin_story: "A bookshelf with exactly two shelves. Clearly, literacy is not a priority.", example_ja: "\u76ee\u7684", example_read: "mokuteki", example_en: "Purpose / Goal" },
+                    { kanji: '耳', meaning: "Ear, Hearing", reading: "ji / mimi", origin_story: "A ladder with too many rungs that goes straight into your brain.", example_ja: "\u8033\u6253\u3061", example_read: "mimiuchi", example_en: "Whispering in ear" },
+                    { kanji: '口', meaning: "Mouth, Entrance", reading: "kou, ku / kuchi", origin_story: "It\\", example_ja: "\u975e\u5e38\u53e3", example_read: "hijouguchi", example_en: "Emergency exit" },
+                    { kanji: '手', meaning: "Hand, Skill", reading: "shu, zu / te, -te, ta-", origin_story: "A weird mutated rake missing a prong.", example_ja: "\u82e6\u624b", example_read: "nigate", example_en: "Weak at / Dislike" },
+                    { kanji: '足', meaning: "Foot, Leg, Sufficient", reading: "soku / ashi, ta.riru, ta.su", origin_story: "A TV set with a bizarre antenna and a kickstand.", example_ja: "\u6e80\u8db3", example_read: "manzoku", example_en: "Satisfaction" },
+                    { kanji: '上', meaning: "Up, Above, Top", reading: "jou, shou, shan / ue, uwa-, kami", origin_story: "A weather vane pointing up because the roof is leaking.", example_ja: "\u4e0a\u624b", example_read: "jouzu", example_en: "Skillful" },
+                    { kanji: '下', meaning: "Down, Below, Bottom", reading: "ka, ge / shita, shimo, moto", origin_story: "An icicle threatening to fall on your head.", example_ja: "\u5730\u4e0b\u9244", example_read: "chikatetsu", example_en: "Subway" },
+                    { kanji: '中', meaning: "Middle, Inside, Center", reading: "chuu / naka, uchi, ata.ru", origin_story: "A piece of candy on a stick that you\\", example_ja: "\u4e16\u754c\u4e2d", example_read: "sekaijuu", example_en: "All over the world" },
+                    { kanji: '外', meaning: "Outside, External", reading: "gai, ge / soto, hoka, hazu.su", origin_story: "Someone smoking a cigarette outside because they were banned from the pub.", example_ja: "\u5916\u56fd\u4eba", example_read: "gaikokujin", example_en: "Foreigner" },
+                    { kanji: '右', meaning: "Right", reading: "uu, you / migi", origin_story: "A mouth (\u53e3) complaining about its lack of a left arm.", example_ja: "\u53f3\u5229\u304d", example_read: "migikiki", example_en: "Right-handed" },
+                    { kanji: '左', meaning: "Left", reading: "sa, sha / hidari", origin_story: "Capital I, floating above a construction tool.", example_ja: "\u5de6\u7ffc", example_read: "sayoku", example_en: "Left-wing" },
+                    { kanji: '大', meaning: "Big, Large", reading: "dai, tai / oo-, oo.kii", origin_story: "A person (\u4eba) stretching their arms out to exaggerate the size of a fish they didn\\", example_ja: "\u5927\u4e08\u592b", example_read: "daijoubu", example_en: "Okay / All right" },
+                    { kanji: '小', meaning: "Small, Little", reading: "shou / chii.sai, ko-, o-", origin_story: "A tiny person making themselves even tinier to avoid being called on in class.", example_ja: "\u5c0f\u8aac", example_read: "shousetsu", example_en: "Novel" },
+                    { kanji: '高', meaning: "High, Tall, Expensive", reading: "kou / taka.i, taka, taka.maru", origin_story: "A tall tower made of discarded Amazon boxes.", example_ja: "\u9ad8\u6821", example_read: "koukou", example_en: "High school" },
+                    { kanji: '安', meaning: "Cheap, Safe, Peaceful", reading: "an / yasu.i, yasu.maru", origin_story: "A woman (\u5973) trapped under a roof (\u5b80). Apparently, this means \"safe\". Problematic.", example_ja: "\u5b89\u5fc3", example_read: "anshin", example_en: "Peace of mind / Relief" },
+                    { kanji: '新', meaning: "New", reading: "shin / atara.shii, ara.ta, nii-", origin_story: "Chopping down a tree (\u6728) with an axe (\u65a4) to build a shiny new thing you don\\", example_ja: "\u65b0\u5e79\u7dda", example_read: "shinkansen", example_en: "Bullet train" },
+                    { kanji: '古', meaning: "Old", reading: "ko / furu.i, furu-", origin_story: "A cross sitting on top of a tombstone (\u53e3). Literally dead.", example_ja: "\u4e2d\u53e4", example_read: "chuuko", example_en: "Used / Secondhand" },
+                    { kanji: '長', meaning: "Long, Leader, Superior", reading: "chou / naga.i, osa", origin_story: "Someone with an impossibly long mullet walking away.", example_ja: "\u793e\u9577", example_read: "shachou", example_en: "Company president" },
+                    { kanji: '多', meaning: "Many, Frequent", reading: "ta / oo.i, masa.ni", origin_story: "Two steaks stacked on top of each other. Meat coma.", example_ja: "\u591a\u5206", example_read: "tabun", example_en: "Probably" },
+                    { kanji: '少', meaning: "Few, Little", reading: "shou / suko.shi, suku.nai", origin_story: "The \"small\" kanji (\u5c0f) missing a leg. Tragic.", example_ja: "\u5c11\u5973", example_read: "shoujo", example_en: "Young girl" },
+                    { kanji: '早', meaning: "Early, Fast", reading: "sou, sa\uff6f / haya.i, haya, haya.maru", origin_story: "A sun (\u65e5) balanced on a needle (\u5341). Wake up before you get poked.", example_ja: "\u65e9\u8d77\u304d", example_read: "hayaoki", example_en: "Early rising" },
+                    { kanji: '行', meaning: "Go, Conduct, Line", reading: "kou, gyou, an / i.ku, yu.ku, okona.u", origin_story: "Two people aggressively walking past each other without saying hi.", example_ja: "\u65c5\u884c", example_read: "ryokou", example_en: "Travel / Trip" },
+                    { kanji: '来', meaning: "Come, Next", reading: "rai, tai / ku.ru, kita.ru", origin_story: "A tree (\u6728) with two weird glowing fruits.", example_ja: "\u6765\u5e74", example_read: "rainen", example_en: "Next year" },
+                    { kanji: '食', meaning: "Eat, Food", reading: "shoku, jiki / ta.beru, ku.u, ku.rau", origin_story: "A house with a good roof where you go specifically to consume calories.", example_ja: "\u98df\u3079\u653e\u984c", example_read: "tabehoudai", example_en: "All-you-can-eat" },
+                    { kanji: '飲', meaning: "Drink", reading: "in, on / no.mu", origin_story: "A person eating next to someone yawning because conversations at the bar are boring.", example_ja: "\u98f2\u307f\u7269", example_read: "nomimono", example_en: "Drink / Beverage" },
+                    { kanji: '見', meaning: "See, Look, Idea", reading: "ken / mi.ru, mi.eru, mi.seru", origin_story: "An eye (\u76ee) with two legs running away from the horrors of the internet.", example_ja: "\u82b1\u898b", example_read: "hanami", example_en: "Cherry blossom viewing" },
+                    { kanji: '聞', meaning: "Hear, Listen, Ask", reading: "bun, mon / ki.ku, ki.koeru", origin_story: "An ear (\u8033) trapped between two giant saloon doors (\u9580).", example_ja: "\u65b0\u805e", example_read: "shinbun", example_en: "Newspaper" },
+                    { kanji: '読', meaning: "Read", reading: "doku, toku, tou / yo.mu", origin_story: "Words (\u8a00) being sold (\u58f2) for attention. The original clickbait.", example_ja: "\u8aad\u66f8", example_read: "dokusho", example_en: "Reading books" },
+                    { kanji: '書', meaning: "Write, Book, Document", reading: "sho / ka.ku", origin_story: "A fancy pen drawing too many horizontal lines.", example_ja: "\u56f3\u66f8\u9928", example_read: "toshokan", example_en: "Library" },
+                    { kanji: '話', meaning: "Speak, Talk, Story", reading: "wa / hana.su, hanashi", origin_story: "Words (\u8a00) flying out of a mouth (\u53e3) with a thousand (\u5343) opinions.", example_ja: "\u96fb\u8a71", example_read: "denwa", example_en: "Telephone" },
+                    { kanji: '買', meaning: "Buy", reading: "bai / ka.u", origin_story: "An eye (\u76ee) looking at a table with legs. Ikea shopping trip.", example_ja: "\u8cb7\u3044\u7269", example_read: "kaimono", example_en: "Shopping" },
+                    { kanji: '教', meaning: "Teach, Faith, Doctrine", reading: "kyou / oshi.eru, oso.waru", origin_story: "Someone aggressively gesturing at you with a stick (\u6535) until you learn math.", example_ja: "\u6559\u5ba4", example_read: "kyoushitsu", example_en: "Classroom" },
+                    { kanji: '休', meaning: "Rest, Day off, Retire", reading: "kyuu / yasu.mu, yasu.maru", origin_story: "A person (\u4eba) leaning against a tree (\u6728) to avoid doing any actual work. The ultimate slacker.", example_ja: "\u590f\u4f11\u307f", example_read: "natsuyasumi", example_en: "Summer vacation" },
+                    { kanji: '立', meaning: "Stand, Establish", reading: "ritsu, ryuu / ta.tsu, ta.teru", origin_story: "A person wearing a graduation cap, waiting for their name to be called.", example_ja: "\u76ee\u7acb\u3064", example_read: "medatsu", example_en: "To stand out" },
+                    { kanji: '座', meaning: "Sit, Seat, Theater", reading: "za / suwa.ru", origin_story: "Two people sitting in a plaza (\u5e83) on a patch of dirt (\u571f).", example_ja: "\u53e3\u5ea7", example_read: "kouza", example_en: "Bank account" },
+                    { kanji: '今', meaning: "Now, This", reading: "kon, kin / ima", origin_story: "A roof (\u5b80) collapsing right this very second.", example_ja: "\u4eca\u65e5", example_read: "kyou", example_en: "Today" },
+                    { kanji: '時', meaning: "Time, Hour", reading: "ji / toki, -doki", origin_story: "The sun (\u65e5) watching waiting on a temple (\u5bfa).", example_ja: "\u6642\u8a08", example_read: "tokei", example_en: "Clock / Watch" },
+                    { kanji: '分', meaning: "Minute, Part, Understand", reading: "bun, fun, bu / wa.keru, wa.karu", origin_story: "A sword (\u5200) slicing an eight (\u516b) in half.", example_ja: "\u81ea\u5206", example_read: "jibun", example_en: "Myself / Oneself" },
+                    { kanji: '半', meaning: "Half, Middle", reading: "han / naka.ba", origin_story: "Three lines being brutally impaled by a pole.", example_ja: "\u534a\u5e74", example_read: "hantoshi", example_en: "Half a year" },
+                    { kanji: '午', meaning: "Noon, Sign of the horse", reading: "go / uma", origin_story: "A stop sign. Take a lunch break.", example_ja: "\u5348\u524d", example_read: "gozen", example_en: "Morning / AM" },
+                    { kanji: '前', meaning: "Before, Front", reading: "zen / mae", origin_story: "A butcher chopping meat before the health inspector arrives.", example_ja: "\u540d\u524d", example_read: "namae", example_en: "Name" },
+                    { kanji: '後', meaning: "After, Behind", reading: "go, kou / ushi.ro, ato, nochi", origin_story: "Two people walking slowly because they are staring at their phones.", example_ja: "\u5348\u5f8c", example_read: "gogo", example_en: "Afternoon / PM" },
+                    { kanji: '去', meaning: "Past, Leave, Quit", reading: "kyo, ko / sa.ru", origin_story: "Dirt (\u571f) piled over your past mistakes (\u53b6).", example_ja: "\u53bb\u5e74", example_read: "kyonen", example_en: "Last year" },
+                    { kanji: '年', meaning: "Year", reading: "nen / toshi", origin_story: "A person struggling to carry a heavy pile of responsibilities.", example_ja: "\u4eca\u5e74", example_read: "kotoshi", example_en: "This year" },
+                    { kanji: '毎', meaning: "Every", reading: "mai / goto", origin_story: "A person wearing a fancy hat every single day to cover up a bald spot.", example_ja: "\u6bce\u65e5", example_read: "mainichi", example_en: "Every day" },
+                    { kanji: '何', meaning: "What", reading: "ka / nani, nan", origin_story: "A person (\u4eba) carrying a ridiculous box (\u53ef) and asking \"What is this?\"", example_ja: "\u4f55\u304b", example_read: "nanika", example_en: "Something" },
+                    { kanji: '春', meaning: "Spring", reading: "shun / haru", origin_story: "Three people wearing sunglasses under the sun.", example_ja: "\u9752\u6625", example_read: "seishun", example_en: "Youth" },
+                    { kanji: '夏', meaning: "Summer", reading: "ka, ge / natsu", origin_story: "A person with a giant head sweating profusely.", example_ja: "\u771f\u590f", example_read: "manatsu", example_en: "Midsummer" },
+                    { kanji: '秋', meaning: "Autumn, Fall", reading: "shuu / aki", origin_story: "A tree (\u79be) on fire (\u706b). Yes, autumn leaves are just slow fire.", example_ja: "\u79cb\u5206", example_read: "shuubun", example_en: "Autumnal equinox" },
+                    { kanji: '冬', meaning: "Winter", reading: "tou / fuyu", origin_story: "Walking on two slippery icicles.", example_ja: "\u771f\u51ac", example_read: "mafuyu", example_en: "Midwinter" },
+                    { kanji: '北', meaning: "North", reading: "hoku / kita", origin_story: "Two people sitting back to back because the thermostat is too low.", example_ja: "\u5317\u6d77\u9053", example_read: "Hokkaidou", example_en: "Hokkaido (island)" },
+                    { kanji: '南', meaning: "South", reading: "nan, na / minami", origin_story: "A fenced area with a single sheep inside.", example_ja: "\u5357\u53e3", example_read: "minamiguchi", example_en: "South exit" },
+                    { kanji: '東', meaning: "East", reading: "tou / higashi", origin_story: "The sun (\u65e5) tangled in a tree (\u6728).", example_ja: "\u6771\u4eac", example_read: "Toukyou", example_en: "Tokyo" },
+                    { kanji: '西', meaning: "West", reading: "sei, sai / nishi", origin_story: "A weird box with curtains drawn tight to block the afternoon sun.", example_ja: "\u95a2\u897f", example_read: "Kansai", example_en: "Kansai (region)" },
+                    { kanji: '雨', meaning: "Rain", reading: "u / ame, ama-", origin_story: "A window looking out at four chunky raindrops.", example_ja: "\u5927\u96e8", example_read: "ooame", example_en: "Heavy rain" },
+                    { kanji: '天', meaning: "Sky, Heaven", reading: "ten / amatsu, ame", origin_story: "A person (\u5927) carrying a massive plank on their head.", example_ja: "\u5929\u6c17", example_read: "tenki", example_en: "Weather" },
+                    { kanji: '空', meaning: "Sky, Empty, Void", reading: "kuu / sora, a.ku, kara", origin_story: "A hole (\u7a74) where your motivation used to be.", example_ja: "\u7a7a\u6c17", example_read: "kuuki", example_en: "Air / Atmosphere" },
+                    { kanji: '気', meaning: "Spirit, Mind, Air", reading: "ki, ke / iki", origin_story: "Steam rising from a pot of rice (\u7c73) you forgot you were cooking.", example_ja: "\u5143\u6c17", example_read: "genki", example_en: "Healthy / Energetic" },
+                    { kanji: '車', meaning: "Car, Wheel", reading: "sha / kuruma", origin_story: "A top-down view of a really bad shopping cart.", example_ja: "\u96fb\u8eca", example_read: "densha", example_en: "Train" },
+                    { kanji: '電', meaning: "Electricity", reading: "den", origin_story: "Rain (\u96e8) falling on a tangled power cord.", example_ja: "\u96fb\u8a71", example_read: "denwa", example_en: "Telephone" },
+                    { kanji: '馬', meaning: "Horse", reading: "ba / uma, ma", origin_story: "A creature with four legs and an absolutely fabulous mane.", example_ja: "\u4e57\u99ac", example_read: "jouba", example_en: "Horse riding" },
+                    { kanji: '魚', meaning: "Fish", reading: "gyo / sakana, uo", origin_story: "A tiny fish bound by a rope, cooking over four flames (\u706c). Dark.", example_ja: "\u91d1\u9b5a", example_read: "kingyo", example_en: "Goldfish" },
+                    { kanji: '鳥', meaning: "Bird", reading: "chou / tori", origin_story: "A crow perching on a single branch.", example_ja: "\u713c\u304d\u9ce5", example_read: "yakitori", example_en: "Grilled chicken skewers" },
+                    { kanji: '語', meaning: "Language, Word, Tell", reading: "go / kata.ru", origin_story: "Words (\u8a00) spoken by five (\u4e94) mouths (\u53e3) simultaneously. A literal loud room.", example_ja: "\u65e5\u672c\u8a9e", example_read: "nihongo", example_en: "Japanese language" },
+                    { kanji: '名', meaning: "Name, Noted, Distinguished", reading: "mei, myou / na", origin_story: "The moon (\u5915) talking to a mouth (\u53e3).", example_ja: "\u6709\u540d", example_read: "yuumei", example_en: "Famous" },
+                    { kanji: '店', meaning: "Store, Shop", reading: "ten / mise", origin_story: "A building where your fortune gets swallowed.", example_ja: "\u55ab\u8336\u5e97", example_read: "kissaten", example_en: "Coffee shop" },
+                    { kanji: '駅', meaning: "Station", reading: "eki", origin_story: "A horse (\u99ac) looking at a ruler (\u5c3a) measuring the delays.", example_ja: "\u99c5\u9577", example_read: "ekichou", example_en: "Stationmaster" },
+                    { kanji: '道', meaning: "Road, Way, Path", reading: "dou, tou / michi", origin_story: "A head (\u9996) rolling along a path. Medieval times were rough.", example_ja: "\u67d4\u9053", example_read: "juudou", example_en: "Judo" },
+                    { kanji: '社', meaning: "Company, Shrine, Society", reading: "sha / yashiro", origin_story: "Pouring your energy into the dirt for corporate gods.", example_ja: "\u4f1a\u793e", example_read: "kaisha", example_en: "Company" },
+                    { kanji: '国', meaning: "Country, Nation", reading: "koku / kuni", origin_story: "A king (\u738b) trapped in a box (\u56d7) calling the shots.", example_ja: "\u5916\u56fd", example_read: "gaikoku", example_en: "Foreign country" },
+                    { kanji: '白', meaning: "White", reading: "haku, byaku / shiro, shiro.i", origin_story: "A sun (\u65e5) with a single grey hair on top.", example_ja: "\u9762\u767d\u3044", example_read: "omoshiroi", example_en: "Interesting" },
+                    { kanji: '黒', meaning: "Black", reading: "koku / kuro, kuro.i", origin_story: "A computer monitor (\u91cc) sitting over a roaring fire (\u706c). My setup rendering a 4k video.", example_ja: "\u9ed2\u677f", example_read: "kokuban", example_en: "Blackboard" },
+                    { kanji: '赤', meaning: "Red", reading: "seki, shaku / aka, aka.i", origin_story: "Someone wearing a giant backpack standing over a campfire (\u706c).", example_ja: "\u8d64\u3061\u3083\u3093", example_read: "akachan", example_en: "Baby" },
+                    { kanji: '青', meaning: "Blue, Green", reading: "sei, shou / ao, ao.i", origin_story: "The moon (\u6708) rising over a polluted factory.", example_ja: "\u9752\u5e74", example_read: "seinen", example_en: "Youth / Young man" },
+                    { kanji: '入', meaning: "Enter, Insert", reading: "nyuu / i.reru, hai.ru", origin_story: "An inverted \"V\" attempting to blend in with the normal letters.", example_ja: "\u5165\u53e3", example_read: "iriguchi", example_en: "Entrance" },
+                    { kanji: '出', meaning: "Exit, Leave, Protude", reading: "shutsu, sui / de.ru, da.su", origin_story: "Two mountain peaks stacked uncomfortably on top of each other.", example_ja: "\u51fa\u53e3", example_read: "deguchi", example_en: "Exit" },
+                    { kanji: '友', meaning: "Friend", reading: "yuu / tomo", origin_story: "Two hands reaching out to borrow money.", example_ja: "\u53cb\u9054", example_read: "tomodachi", example_en: "Friend" },
+                    { kanji: '校', meaning: "School, Exam", reading: "kou, kyou", origin_story: "A tree (\u6728) next to a building where creativity goes to die (\u4ea4).", example_ja: "\u5b66\u6821", example_read: "gakkou", example_en: "School" },
+                    { kanji: '勉', meaning: "Exertion, Endeavor", reading: "ben / tsuto.meru", origin_story: "Using force (\u529b) to give a rabbit a weird massage.", example_ja: "\u52c9\u5f37", example_read: "benkyou", example_en: "Study" },
+                    { kanji: '母', meaning: "Mother", reading: "bo / haha, mo", origin_story: "Two weird squares with dots in them. Use your imagination.", example_ja: "\u304a\u6bcd\u3055\u3093", example_read: "okaasan", example_en: "Mother" },
+                    { kanji: '父', meaning: "Father", reading: "fu / chichi", origin_story: "Two crossed swords representing dad lore.", example_ja: "\u304a\u7236\u3055\u3093", example_read: "otousan", example_en: "Father" },
+                    { kanji: '学', meaning: "Study, Learning, Science", reading: "gaku / mana.bu", origin_story: "Three kids wearing graduation caps trying to look smart.", example_ja: "\u5b66\u751f", example_read: "gakusei", example_en: "Student" },
+                    { kanji: '先', meaning: "Before, Ahead, Previous", reading: "sen / saki, ma.zu", origin_story: "Moving your legs (\u513f) forward through the dirt (\u571f).", example_ja: "\u5148\u751f", example_read: "sensei", example_en: "Teacher" },
+                    { kanji: '生', meaning: "Life, Genuine, Birth", reading: "sei, shou / i.kiru, u.mu, nama", origin_story: "A sapling sprouting from the ground ready to pay taxes.", example_ja: "\u8a95\u751f\u65e5", example_read: "tanjoubi", example_en: "Birthday" },
                 ],
                 searchQuery: '',
                 showBookmarksOnly: false,
@@ -357,6 +387,9 @@
                         this.quiz.message = 'Quiz finished!';
                     }
                 },
+                get currentKanjiObj() {
+                    return this.quiz.questions[this.quiz.currentIndex] ? this.kanjis.find(k => k.kanji === this.quiz.questions[this.quiz.currentIndex].kanji) : null;
+                },
                 init() {
                     const saved = JSON.parse(localStorage.getItem('kanji-bookmarks') || '[]');
                     this.kanjis = this.kanjis.map(k => ({
@@ -365,7 +398,7 @@
                     }));
                     this.quiz.questions = this.kanjis.map(k => ({
                         kanji: k.kanji,
-                        answers: k.meaning.toLowerCase().split('/').map(w => w.trim())
+                        answers: k.meaning.toLowerCase().split(/[\/,]/).map(w => w.trim())
                     }));
                 },
                 toggleBookmark(kanji) {
