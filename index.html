@@ -89,6 +89,36 @@
             </div>
         </div>
 
+        <!-- Quiz Section -->
+        <div class="max-w-2xl mx-auto mb-16 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center">
+            <h2 class="text-2xl font-bold mb-4 text-slate-800">Mini Quiz</h2>
+            <div x-show="!quiz.active">
+                <button @click="startQuiz()"
+                    class="bg-black text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors">Start
+                    Quiz</button>
+            </div>
+            <div x-show="quiz.active">
+                <div class="text-7xl font-sans mb-6 text-slate-800"
+                    x-text="quiz.questions[quiz.currentIndex] ? quiz.questions[quiz.currentIndex].kanji : ''">
+                </div>
+                <input x-ref="quizInput" type="text" x-model="quiz.answer" @keyup.enter="handleEnter()"
+                    :readonly="quiz.message !== ''" placeholder="Type meaning in English..."
+                    class="w-full max-w-xs border-2 border-slate-200 px-4 py-3 rounded-xl text-center focus:outline-none focus:border-black mb-4 text-lg read-only:bg-slate-50 read-only:text-slate-500">
+                <div class="flex justify-center gap-4">
+                    <button @click="handleEnter()"
+                        class="bg-black text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors"
+                        x-text="quiz.message ? 'Next Question' : 'Submit'"></button>
+                </div>
+                <div class="mt-6 text-2xl font-bold"
+                    :class="quiz.message === 'Correct!' ? 'text-green-500' : 'text-red-500'" x-text="quiz.message">
+                </div>
+                <div class="mt-2 text-lg text-slate-600 font-medium"
+                    x-show="quiz.message && quiz.message !== 'Correct!'">
+                    Answer: <span x-text="quiz.questions[quiz.currentIndex]?.answers.join(', ')"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- Flashcard Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
             <template x-for="kanji in filteredKanjis" :key="kanji.kanji">
@@ -274,11 +304,68 @@
                 ],
                 searchQuery: '',
                 showBookmarksOnly: false,
+                quiz: {
+                    active: false,
+                    questions: [],
+                    currentIndex: 0,
+                    answer: '',
+                    message: '',
+                    // Helper function to shuffle an array
+                    shuffle(array) {
+                        let currentIndex = array.length, randomIndex;
+                        while (currentIndex !== 0) {
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex--;
+                            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                        }
+                        return array;
+                    }
+                },
+                handleEnter() {
+                    if (this.quiz.message !== '') {
+                        this.nextQuestion();
+                    } else {
+                        if (this.quiz.answer.trim() !== '') {
+                            this.checkAnswer();
+                        }
+                    }
+                },
+                startQuiz() {
+                    this.quiz.active = true;
+                    this.quiz.currentIndex = 0;
+                    this.quiz.answer = '';
+                    this.quiz.message = '';
+                    this.quiz.shuffle(this.quiz.questions);
+                    this.$nextTick(() => { if (this.$refs.quizInput) this.$refs.quizInput.focus(); });
+                },
+                checkAnswer() {
+                    const correctAnswers = this.quiz.questions[this.quiz.currentIndex].answers;
+                    if (correctAnswers.includes(this.quiz.answer.toLowerCase().trim())) {
+                        this.quiz.message = 'Correct!';
+                    } else {
+                        this.quiz.message = 'Incorrect.';
+                    }
+                },
+                nextQuestion() {
+                    if (this.quiz.currentIndex < this.quiz.questions.length - 1) {
+                        this.quiz.currentIndex++;
+                        this.quiz.answer = '';
+                        this.quiz.message = '';
+                        this.$nextTick(() => { if (this.$refs.quizInput) this.$refs.quizInput.focus(); });
+                    } else {
+                        this.quiz.active = false;
+                        this.quiz.message = 'Quiz finished!';
+                    }
+                },
                 init() {
                     const saved = JSON.parse(localStorage.getItem('kanji-bookmarks') || '[]');
                     this.kanjis = this.kanjis.map(k => ({
                         ...k,
                         bookmarked: saved.includes(k.kanji)
+                    }));
+                    this.quiz.questions = this.kanjis.map(k => ({
+                        kanji: k.kanji,
+                        answers: k.meaning.toLowerCase().split('/').map(w => w.trim())
                     }));
                 },
                 toggleBookmark(kanji) {
