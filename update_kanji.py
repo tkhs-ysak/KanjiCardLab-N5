@@ -110,7 +110,7 @@ expanded_data = {
     '入': {'meaning': 'Enter, Insert', 'reading': 'nyuu / i.reru, hai.ru', 'example_ja': '入口', 'example_read': 'iriguchi', 'example_en': 'Entrance'},
     '出': {'meaning': 'Exit, Leave, Protude', 'reading': 'shutsu, sui / de.ru, da.su', 'example_ja': '出口', 'example_read': 'deguchi', 'example_en': 'Exit'},
     '友': {'meaning': 'Friend', 'reading': 'yuu / tomo', 'example_ja': '友達', 'example_read': 'tomodachi', 'example_en': 'Friend'},
-    '校': {'meaning': 'School, Exam', 'reading': 'kou, kyou', 'example_ja': '学校', 'example_read': 'gakkou', 'example_en': 'School'},
+    '校': {'meaning': 'School', 'reading': 'kou, kyou', 'example_ja': '学校', 'example_read': 'gakkou', 'example_en': 'School'},
     '勉': {'meaning': 'Exertion, Endeavor', 'reading': 'ben / tsuto.meru', 'example_ja': '勉強', 'example_read': 'benkyou', 'example_en': 'Study'},
     '母': {'meaning': 'Mother', 'reading': 'bo / haha, mo', 'example_ja': 'お母さん', 'example_read': 'okaasan', 'example_en': 'Mother'},
     '父': {'meaning': 'Father', 'reading': 'fu / chichi', 'example_ja': 'お父さん', 'example_read': 'otousan', 'example_en': 'Father'},
