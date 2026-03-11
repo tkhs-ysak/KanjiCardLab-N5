@@ -137,7 +137,7 @@
         </div>
 
         <!-- Quiz Setup -->
-        <div x-show="quizSetupMode && !quizMode" x-transition class="max-w-lg mx-auto">
+        <div x-cloak x-show="quizSetupMode && !quizMode" x-transition class="max-w-lg mx-auto">
             <div class="flex items-center justify-between mb-8">
                 <button @click="quizSetupMode = false"
                     class="flex items-center gap-2 text-slate-500 hover:text-black transition-colors text-sm font-medium">
@@ -265,7 +265,7 @@
         </div>
 
         <!-- Quiz Mode -->
-        <div x-show="quizMode && !quizFinished" x-transition class="max-w-2xl mx-auto">
+        <div x-cloak x-show="quizMode && !quizFinished" x-transition class="max-w-2xl mx-auto">
             <div class="flex items-center justify-between mb-8">
                 <button @click="exitQuiz()"
                     class="flex items-center gap-2 text-slate-500 hover:text-black transition-colors text-sm font-medium">
@@ -328,7 +328,7 @@
         </div>
 
         <!-- Quiz Results -->
-        <div x-show="quizMode && quizFinished" x-transition class="max-w-2xl mx-auto text-center">
+        <div x-cloak x-show="quizMode && quizFinished" x-transition class="max-w-2xl mx-auto text-center">
             <div class="mb-12">
                 <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Your Score</p>
                 <p class="text-7xl md:text-8xl font-black text-black mb-2">
