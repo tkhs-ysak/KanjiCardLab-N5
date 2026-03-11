@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
 
     <style>
+        [x-cloak] { display: none !important; }
         body {
             font-family: 'Outfit', sans-serif;
             background-color: #f8fafc;
@@ -485,7 +486,7 @@
     </div>
 
     <!-- Custom Card Modal -->
-    <div x-show="customCardModalOpen" x-transition.opacity
+    <div x-cloak x-show="customCardModalOpen" x-transition.opacity
         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
         @click.self="closeCustomCardModal()" @keydown.escape.window="customCardModalOpen && closeCustomCardModal()">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-8"
