@@ -4,6 +4,8 @@ An interactive web-based kanji flashcard app for JLPT N5 learners. Study 111 ess
 
 JLPT N5レベルの漢字111字を収録したインタラクティブなフラッシュカードアプリです。
 
+**Live Demo / デモ:** https://kanji-card-lab-n5.vercel.app/
+
 ![Demo](docs/demo.gif)
 <!-- Replace with an actual demo GIF or screenshot -->
 
