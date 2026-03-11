@@ -119,6 +119,13 @@
                         </svg>
                         Quiz
                     </button>
+                    <button @click="openAddCustomCard()"
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-transparent text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition-colors outline-none focus:ring-2 focus:ring-slate-200">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Add Card
+                    </button>
                 </div>
 
                 <div class="text-slate-500"
@@ -361,8 +368,21 @@
 
         <!-- Flashcard Grid -->
         <div x-show="!quizMode && !quizSetupMode" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-            <template x-for="kanji in filteredKanjis" :key="kanji.kanji">
+            <template x-for="kanji in filteredKanjis" :key="kanji.id || kanji.kanji">
                 <div class="relative w-full h-80 group perspective-1000" @click="kanji.flipped = !kanji.flipped">
+                    <!-- Delete Confirmation Overlay -->
+                    <div x-show="deleteConfirmId === kanji.id" @click.stop
+                        class="absolute inset-0 bg-white/95 backdrop-blur-sm rounded-3xl z-20 flex flex-col items-center justify-center gap-4 p-6">
+                        <p class="text-sm font-bold text-slate-700">Delete this card?</p>
+                        <p class="text-xs text-slate-400">This cannot be undone.</p>
+                        <div class="flex gap-3">
+                            <button @click.stop="deleteCustomCard(kanji)"
+                                class="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 transition-colors">Delete</button>
+                            <button @click.stop="deleteConfirmId = null"
+                                class="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors">Cancel</button>
+                        </div>
+                    </div>
+
                     <!-- The Card Inner -->
                     <div class="w-full h-full transition-transform duration-700 transform-style-3d cursor-pointer shadow-xl rounded-3xl"
                         :class="kanji.flipped ? 'rotate-y-180' : ''">
@@ -380,9 +400,29 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </button>
+                            <!-- Custom Card Controls -->
+                            <template x-if="kanji.isCustom">
+                                <div class="absolute top-4 left-4 flex gap-1 z-10">
+                                    <button @click.prevent.stop="openEditCustomCard(kanji)"
+                                        class="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                        <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </button>
+                                    <button @click.prevent.stop="deleteConfirmId = kanji.id"
+                                        class="p-2 rounded-full hover:bg-red-50 transition-colors">
+                                        <svg class="w-5 h-5 text-slate-300 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
                             <span
                                 class="text-9xl mb-4 font-semibold text-slate-800 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
                                 x-text="kanji.kanji"></span>
+                            <!-- Custom badge -->
+                            <span x-show="kanji.isCustom"
+                                class="absolute bottom-4 left-4 text-[0.6rem] font-bold text-indigo-400 bg-indigo-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Custom</span>
                             <span
                                 class="text-slate-400 font-bold tracking-widest uppercase text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100">Click
                                 to flip</span>
@@ -400,6 +440,23 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </button>
+                            <!-- Custom Card Controls (back) -->
+                            <template x-if="kanji.isCustom">
+                                <div class="absolute top-4 left-4 flex gap-1 z-10 shrink-0">
+                                    <button @click.prevent.stop="openEditCustomCard(kanji)"
+                                        class="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                        <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </button>
+                                    <button @click.prevent.stop="deleteConfirmId = kanji.id"
+                                        class="p-2 rounded-full hover:bg-red-50 transition-colors">
+                                        <svg class="w-5 h-5 text-slate-300 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
                             <h3 class="text-3xl font-bold text-black mb-3 mt-2 leading-tight shrink-0"
                                 x-text="kanji.meaning"></h3>
                             <div class="flex flex-col gap-1 w-full mb-3 shrink-0">
@@ -416,7 +473,7 @@
                                     <p class="text-sm text-slate-600 leading-snug" x-text="kanji.example_en"></p>
                                 </div>
                             </div>
-                            <div class="relative mt-auto pt-3 border-t border-slate-100 w-full shrink-0">
+                            <div class="relative mt-auto pt-3 border-t border-slate-100 w-full shrink-0" x-show="kanji.origin_story">
                                 <p class="text-[0.90rem] text-slate-500 italic leading-snug"
                                     x-text="kanji.origin_story"></p>
                             </div>
@@ -425,6 +482,93 @@
                 </div>
         </div>
         </template>
+    </div>
+
+    <!-- Custom Card Modal -->
+    <div x-show="customCardModalOpen" x-transition.opacity
+        class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+        @click.self="closeCustomCardModal()" @keydown.escape.window="customCardModalOpen && closeCustomCardModal()">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-8"
+            x-transition.scale.origin.center @click.stop>
+            <h2 class="text-2xl font-black text-black mb-6"
+                x-text="editingCard ? 'Edit Custom Card' : 'Add Custom Card'"></h2>
+
+            <!-- Kanji -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kanji Character *</label>
+                <input type="text" x-model="customCardForm.kanji" maxlength="4"
+                    class="w-full px-4 py-3 rounded-xl border-2 transition-all text-3xl text-center outline-none focus:ring-4 focus:ring-slate-200"
+                    :class="customCardErrors.kanji ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-black'">
+                <p x-show="customCardErrors.kanji" x-text="customCardErrors.kanji" class="text-red-500 text-xs mt-1"></p>
+            </div>
+
+            <!-- Meaning -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Meaning *</label>
+                <input type="text" x-model="customCardForm.meaning" placeholder="e.g. Cat"
+                    class="w-full px-4 py-2.5 rounded-xl border-2 transition-all outline-none focus:ring-4 focus:ring-slate-200"
+                    :class="customCardErrors.meaning ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-black'">
+                <p x-show="customCardErrors.meaning" x-text="customCardErrors.meaning" class="text-red-500 text-xs mt-1"></p>
+            </div>
+
+            <!-- Reading -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Reading *</label>
+                <input type="text" x-model="customCardForm.reading" placeholder="e.g. byou / neko"
+                    class="w-full px-4 py-2.5 rounded-xl border-2 transition-all outline-none focus:ring-4 focus:ring-slate-200"
+                    :class="customCardErrors.reading ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-black'">
+                <p x-show="customCardErrors.reading" x-text="customCardErrors.reading" class="text-red-500 text-xs mt-1"></p>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Difficulty</label>
+                <div class="flex bg-slate-100 p-1 rounded-lg">
+                    <button @click="customCardForm.difficulty = 'easy'" type="button"
+                        :class="customCardForm.difficulty === 'easy' ? 'bg-green-100 text-green-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                        class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all">Easy</button>
+                    <button @click="customCardForm.difficulty = 'medium'" type="button"
+                        :class="customCardForm.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                        class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all">Medium</button>
+                    <button @click="customCardForm.difficulty = 'hard'" type="button"
+                        :class="customCardForm.difficulty === 'hard' ? 'bg-red-100 text-red-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                        class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all">Hard</button>
+                </div>
+            </div>
+
+            <!-- Origin Story -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Memory Hint / Origin Story</label>
+                <textarea x-model="customCardForm.origin_story" rows="2" placeholder="How to remember this kanji..."
+                    class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-black transition-all outline-none focus:ring-4 focus:ring-slate-200 resize-none"></textarea>
+            </div>
+
+            <!-- Example fields -->
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Example (Japanese)</label>
+                <input type="text" x-model="customCardForm.example_ja" placeholder="e.g. 猫カフェ"
+                    class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-black transition-all outline-none focus:ring-4 focus:ring-slate-200">
+            </div>
+            <div class="mb-4">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Example (Reading)</label>
+                <input type="text" x-model="customCardForm.example_read" placeholder="e.g. neko kafe"
+                    class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-black transition-all outline-none focus:ring-4 focus:ring-slate-200">
+            </div>
+            <div class="mb-6">
+                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Example (English)</label>
+                <input type="text" x-model="customCardForm.example_en" placeholder="e.g. Cat cafe"
+                    class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-black transition-all outline-none focus:ring-4 focus:ring-slate-200">
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-3">
+                <button @click="saveCustomCard()"
+                    class="flex-1 py-3 bg-black text-white rounded-xl font-bold hover:bg-slate-800 transition-colors"
+                    x-text="editingCard ? 'Save Changes' : 'Add Card'"></button>
+                <button @click="closeCustomCardModal()"
+                    class="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -565,12 +709,116 @@
                 wrongAnswers: [],
                 quizFinished: false,
 
+                // Custom card state
+                customCardModalOpen: false,
+                editingCard: null,
+                customCardForm: {
+                    kanji: '', meaning: '', reading: '', origin_story: '',
+                    example_ja: '', example_read: '', example_en: '', difficulty: 'medium'
+                },
+                customCardErrors: {},
+                deleteConfirmId: null,
+
                 init() {
+                    this.loadCustomCards();
                     const saved = JSON.parse(localStorage.getItem('kanji-bookmarks') || '[]');
                     this.kanjis = this.kanjis.map(k => ({
                         ...k,
-                        bookmarked: saved.includes(k.kanji)
+                        bookmarked: saved.includes(k.kanji),
+                        flipped: false
                     }));
+                },
+                loadCustomCards() {
+                    const saved = JSON.parse(localStorage.getItem('kanji-custom-cards') || '[]');
+                    saved.forEach(card => {
+                        card.isCustom = true;
+                        this.kanjis.push(card);
+                    });
+                },
+                saveCustomCards() {
+                    const customs = this.kanjis
+                        .filter(k => k.isCustom)
+                        .map(({ bookmarked, flipped, ...rest }) => rest);
+                    localStorage.setItem('kanji-custom-cards', JSON.stringify(customs));
+                },
+                openAddCustomCard() {
+                    this.editingCard = null;
+                    this.customCardForm = {
+                        kanji: '', meaning: '', reading: '', origin_story: '',
+                        example_ja: '', example_read: '', example_en: '', difficulty: 'medium'
+                    };
+                    this.customCardErrors = {};
+                    this.customCardModalOpen = true;
+                },
+                openEditCustomCard(card) {
+                    this.editingCard = card;
+                    this.customCardForm = {
+                        kanji: card.kanji, meaning: card.meaning, reading: card.reading,
+                        origin_story: card.origin_story || '', example_ja: card.example_ja || '',
+                        example_read: card.example_read || '', example_en: card.example_en || '',
+                        difficulty: card.difficulty
+                    };
+                    this.customCardErrors = {};
+                    this.customCardModalOpen = true;
+                },
+                validateCustomCardForm() {
+                    this.customCardErrors = {};
+                    if (!this.customCardForm.kanji.trim()) this.customCardErrors.kanji = 'Required';
+                    if (!this.customCardForm.meaning.trim()) this.customCardErrors.meaning = 'Required';
+                    if (!this.customCardForm.reading.trim()) this.customCardErrors.reading = 'Required';
+                    if (this.customCardForm.kanji.trim()) {
+                        const dup = this.kanjis.some(k =>
+                            k.kanji === this.customCardForm.kanji.trim() &&
+                            (!this.editingCard || k.id !== this.editingCard.id)
+                        );
+                        if (dup) this.customCardErrors.kanji = 'This kanji already exists';
+                    }
+                    return Object.keys(this.customCardErrors).length === 0;
+                },
+                saveCustomCard() {
+                    if (!this.validateCustomCardForm()) return;
+                    if (this.editingCard) {
+                        const idx = this.kanjis.findIndex(k => k.id === this.editingCard.id);
+                        if (idx !== -1) {
+                            Object.assign(this.kanjis[idx], {
+                                kanji: this.customCardForm.kanji.trim(),
+                                meaning: this.customCardForm.meaning.trim(),
+                                reading: this.customCardForm.reading.trim(),
+                                origin_story: this.customCardForm.origin_story.trim(),
+                                example_ja: this.customCardForm.example_ja.trim(),
+                                example_read: this.customCardForm.example_read.trim(),
+                                example_en: this.customCardForm.example_en.trim(),
+                                difficulty: this.customCardForm.difficulty
+                            });
+                        }
+                    } else {
+                        this.kanjis.push({
+                            id: 'custom_' + Date.now(),
+                            kanji: this.customCardForm.kanji.trim(),
+                            meaning: this.customCardForm.meaning.trim(),
+                            reading: this.customCardForm.reading.trim(),
+                            origin_story: this.customCardForm.origin_story.trim(),
+                            example_ja: this.customCardForm.example_ja.trim(),
+                            example_read: this.customCardForm.example_read.trim(),
+                            example_en: this.customCardForm.example_en.trim(),
+                            difficulty: this.customCardForm.difficulty,
+                            isCustom: true, bookmarked: false, flipped: false
+                        });
+                    }
+                    this.saveCustomCards();
+                    this.customCardModalOpen = false;
+                },
+                deleteCustomCard(card) {
+                    this.kanjis = this.kanjis.filter(k => k.id !== card.id);
+                    this.saveCustomCards();
+                    const savedBookmarks = this.kanjis.filter(k => k.bookmarked).map(k => k.kanji);
+                    localStorage.setItem('kanji-bookmarks', JSON.stringify(savedBookmarks));
+                    this.deleteConfirmId = null;
+                },
+                closeCustomCardModal() {
+                    this.customCardModalOpen = false;
+                    this.editingCard = null;
+                    this.customCardErrors = {};
                 },
                 toggleBookmark(kanji) {
                     kanji.bookmarked = !kanji.bookmarked;
