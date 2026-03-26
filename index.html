@@ -286,9 +286,9 @@
                 <div class="text-center">
                     <div class="mb-12 relative">
                         <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6"
-                            x-text="currentQ.type === 'kanji-to-meaning' ? 'What does this kanji mean?' : 'Which kanji means...'"></p>
+                            x-text="currentQ.type === 'kanji-to-meaning' ? 'What does this kanji mean?' : currentQ.type === 'meaning-to-kanji' ? 'Which kanji means...' : 'How do you read this kanji?'"></p>
                         <span class="text-8xl md:text-9xl font-semibold text-slate-800 drop-shadow-sm"
-                            x-show="currentQ.type === 'kanji-to-meaning'"
+                            x-show="currentQ.type === 'kanji-to-meaning' || currentQ.type === 'kanji-to-reading'"
                             x-text="currentQ.kanji.kanji"></span>
                         <span class="text-5xl md:text-6xl font-bold text-black"
                             x-show="currentQ.type === 'meaning-to-kanji'"
@@ -315,7 +315,7 @@
                                     'border-slate-100 opacity-50': showAnswer && getChoiceLabel(currentQ, choice) !== currentQ.correctAnswer && selectedAnswer !== getChoiceLabel(currentQ, choice),
                                 }"
                                 class="p-6 rounded-2xl border-2 bg-white transition-all duration-300 cursor-pointer text-center"
-                                :class="currentQ.type === 'kanji-to-meaning' ? 'text-lg font-semibold' : 'text-4xl font-semibold'">
+                                :class="currentQ.type === 'kanji-to-meaning' ? 'text-lg font-semibold' : currentQ.type === 'meaning-to-kanji' ? 'text-4xl font-semibold' : 'text-xl font-semibold'">
                                 <span x-text="getChoiceLabel(currentQ, choice)"></span>
                             </button>
                         </template>
@@ -899,7 +899,8 @@
 
                     this.quizSetupMode = false;
                     this.quizQuestions = this.shuffleArray(pool).map(kanji => {
-                        const type = Math.random() < 0.5 ? 'kanji-to-meaning' : 'meaning-to-kanji';
+                        const r = Math.random();
+                        const type = r < 0.33 ? 'kanji-to-meaning' : r < 0.67 ? 'meaning-to-kanji' : 'kanji-to-reading';
                         const others = this.shuffleArray(
                             this.kanjis.filter(k => k.kanji !== kanji.kanji)
                         ).slice(0, 3);
@@ -908,7 +909,7 @@
                             kanji: kanji,
                             type: type,
                             choices: choices,
-                            correctAnswer: type === 'kanji-to-meaning' ? kanji.meaning : kanji.kanji,
+                            correctAnswer: type === 'kanji-to-meaning' ? kanji.meaning : type === 'meaning-to-kanji' ? kanji.kanji : kanji.reading,
                         };
                     });
 
@@ -924,7 +925,9 @@
                     return this.quizQuestions[this.currentQuestion] || null;
                 },
                 getChoiceLabel(q, choice) {
-                    return q.type === 'kanji-to-meaning' ? choice.meaning : choice.kanji;
+                    if (q.type === 'kanji-to-meaning') return choice.meaning;
+                    if (q.type === 'meaning-to-kanji') return choice.kanji;
+                    return choice.reading;
                 },
                 selectAnswer(answer) {
                     if (this.showAnswer) return;
