@@ -318,6 +318,9 @@
                         <span class="text-8xl md:text-9xl font-semibold text-slate-800 drop-shadow-sm"
                             x-show="currentQ.type === 'kanji-to-meaning' || currentQ.type === 'kanji-to-reading'"
                             x-text="currentQ.kanji.kanji"></span>
+                        <p class="text-base text-slate-400 mt-3 font-medium tracking-wide"
+                            x-show="currentQ.type === 'kanji-to-meaning'"
+                            x-text="currentQ.kanji.reading"></p>
                         <span class="text-5xl md:text-6xl font-bold text-black"
                             x-show="currentQ.type === 'meaning-to-kanji'"
                             x-text="currentQ.kanji.meaning"></span>
@@ -345,6 +348,9 @@
                                 class="p-6 rounded-2xl border-2 bg-white transition-all duration-300 cursor-pointer text-center"
                                 :class="currentQ.type === 'kanji-to-meaning' ? 'text-lg font-semibold' : currentQ.type === 'meaning-to-kanji' ? 'text-4xl font-semibold' : 'text-xl font-semibold'">
                                 <span x-text="getChoiceLabel(currentQ, choice)"></span>
+                                <span class="block text-sm text-slate-400 font-normal mt-1"
+                                    x-show="currentQ.type === 'meaning-to-kanji'"
+                                    x-text="choice.reading"></span>
                             </button>
                         </template>
                     </div>
