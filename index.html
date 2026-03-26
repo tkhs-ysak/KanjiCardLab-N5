@@ -253,6 +253,34 @@
                     </div>
                 </button>
             </div>
+            <!-- Quiz Type -->
+            <div class="mb-8">
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Quiz Type</p>
+                <div class="grid grid-cols-3 gap-3">
+                    <button @click="quizType = 'mixed'"
+                        :class="quizType === 'mixed' ? 'border-black bg-slate-50 shadow-md' : 'border-slate-200 hover:border-slate-400'"
+                        class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 bg-white transition-all">
+                        <span class="text-2xl">🔀</span>
+                        <p class="font-bold text-black text-sm">Mixed</p>
+                        <p class="text-xs text-slate-500 text-center">All types</p>
+                    </button>
+                    <button @click="quizType = 'meaning'"
+                        :class="quizType === 'meaning' ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-slate-200 hover:border-blue-300'"
+                        class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 bg-white transition-all">
+                        <span class="text-2xl">💬</span>
+                        <p class="font-bold text-black text-sm">Meaning</p>
+                        <p class="text-xs text-slate-500 text-center">意味</p>
+                    </button>
+                    <button @click="quizType = 'reading'"
+                        :class="quizType === 'reading' ? 'border-purple-500 bg-purple-50 shadow-md' : 'border-slate-200 hover:border-purple-300'"
+                        class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 bg-white transition-all">
+                        <span class="text-2xl">📖</span>
+                        <p class="font-bold text-black text-sm">Reading</p>
+                        <p class="text-xs text-slate-500 text-center">読み方</p>
+                    </button>
+                </div>
+            </div>
+
             <div x-show="quizSourceCount < 2" x-transition class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm font-medium text-center">
                 Need at least 2 kanji to start a quiz.
             </div>
@@ -721,6 +749,7 @@
                 quizMode: false,
                 quizSetupMode: false,
                 quizSource: 'bookmarked',
+                quizType: 'mixed',
                 quizQuestions: [],
                 currentQuestion: 0,
                 selectedAnswer: null,
@@ -900,7 +929,14 @@
                     this.quizSetupMode = false;
                     this.quizQuestions = this.shuffleArray(pool).map(kanji => {
                         const r = Math.random();
-                        const type = r < 0.33 ? 'kanji-to-meaning' : r < 0.67 ? 'meaning-to-kanji' : 'kanji-to-reading';
+                        let type;
+                        if (this.quizType === 'reading') {
+                            type = 'kanji-to-reading';
+                        } else if (this.quizType === 'meaning') {
+                            type = r < 0.5 ? 'kanji-to-meaning' : 'meaning-to-kanji';
+                        } else {
+                            type = r < 0.33 ? 'kanji-to-meaning' : r < 0.67 ? 'meaning-to-kanji' : 'kanji-to-reading';
+                        }
                         const others = this.shuffleArray(
                             this.kanjis.filter(k => k.kanji !== kanji.kanji)
                         ).slice(0, 3);
