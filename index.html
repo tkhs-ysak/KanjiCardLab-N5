@@ -464,23 +464,23 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </button>
-                            <!-- Custom Card Controls -->
-                            <template x-if="kanji.isCustom">
-                                <div class="absolute top-4 left-4 flex gap-1 z-10">
-                                    <button @click.prevent.stop="openEditCustomCard(kanji)"
-                                        class="p-2 rounded-full hover:bg-slate-100 transition-colors">
-                                        <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                    </button>
+                            <!-- Card Controls (front) -->
+                            <div class="absolute top-4 left-4 flex gap-1 z-10">
+                                <button @click.prevent.stop="openEditCard(kanji)"
+                                    class="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                    <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <template x-if="kanji.isCustom">
                                     <button @click.prevent.stop="deleteConfirmId = kanji.id"
                                         class="p-2 rounded-full hover:bg-red-50 transition-colors">
                                         <svg class="w-5 h-5 text-slate-300 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
                                     </button>
-                                </div>
-                            </template>
+                                </template>
+                            </div>
                             <span
                                 class="text-9xl mb-4 font-semibold text-slate-800 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
                                 x-text="kanji.kanji"></span>
@@ -504,23 +504,23 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </button>
-                            <!-- Custom Card Controls (back) -->
-                            <template x-if="kanji.isCustom">
-                                <div class="absolute top-4 left-4 flex gap-1 z-10 shrink-0">
-                                    <button @click.prevent.stop="openEditCustomCard(kanji)"
-                                        class="p-2 rounded-full hover:bg-slate-100 transition-colors">
-                                        <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                    </button>
+                            <!-- Card Controls (back) -->
+                            <div class="absolute top-4 left-4 flex gap-1 z-10 shrink-0">
+                                <button @click.prevent.stop="openEditCard(kanji)"
+                                    class="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                    <svg class="w-5 h-5 text-slate-300 hover:text-slate-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <template x-if="kanji.isCustom">
                                     <button @click.prevent.stop="deleteConfirmId = kanji.id"
                                         class="p-2 rounded-full hover:bg-red-50 transition-colors">
                                         <svg class="w-5 h-5 text-slate-300 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
                                     </button>
-                                </div>
-                            </template>
+                                </template>
+                            </div>
                             <h3 class="text-3xl font-bold text-black mb-3 mt-2 leading-tight shrink-0"
                                 x-text="kanji.meaning"></h3>
                             <template x-if="kanji.onyomi !== undefined">
@@ -571,7 +571,7 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-8"
             x-transition.scale.origin.center @click.stop>
             <h2 class="text-2xl font-black text-black mb-6"
-                x-text="editingCard ? 'Edit Custom Card' : 'Add Custom Card'"></h2>
+                x-text="editingCard ? 'Edit Card' : 'Add Card'"></h2>
 
             <!-- Kanji -->
             <div class="mb-4">
@@ -591,13 +591,20 @@
                 <p x-show="customCardErrors.meaning" x-text="customCardErrors.meaning" class="text-red-500 text-xs mt-1"></p>
             </div>
 
-            <!-- Reading -->
-            <div class="mb-4">
-                <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Reading *</label>
-                <input type="text" x-model="customCardForm.reading" placeholder="e.g. byou / neko"
-                    class="w-full px-4 py-2.5 rounded-xl border-2 transition-all outline-none focus:ring-4 focus:ring-slate-200"
-                    :class="customCardErrors.reading ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-black'">
-                <p x-show="customCardErrors.reading" x-text="customCardErrors.reading" class="text-red-500 text-xs mt-1"></p>
+            <!-- On'yomi / Kun'yomi -->
+            <div class="flex gap-3 mb-4">
+                <div class="flex-1">
+                    <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">On&apos;yomi *</label>
+                    <input type="text" x-model="customCardForm.onyomi" placeholder="e.g. byou"
+                        class="w-full px-4 py-2.5 rounded-xl border-2 transition-all outline-none focus:ring-4 focus:ring-slate-200"
+                        :class="customCardErrors.onyomi ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-black'">
+                    <p x-show="customCardErrors.onyomi" x-text="customCardErrors.onyomi" class="text-red-500 text-xs mt-1"></p>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kun&apos;yomi</label>
+                    <input type="text" x-model="customCardForm.kunyomi" placeholder="e.g. neko"
+                        class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-black transition-all outline-none focus:ring-4 focus:ring-slate-200">
+                </div>
             </div>
 
             <!-- Difficulty -->
@@ -661,117 +668,117 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('kanjiApp', () => ({
                 kanjis: [
-                    { kanji: '一', meaning: "One", onyomi: "ichi", kunyomi: "hito", origin_story: "A single horizontal stroke representing the number one.", example_ja: "\u4e00\u65e5", example_read: "tsuitachi / ichinichi", example_en: "First day of the month / One day", difficulty: 'easy' },
-                    { kanji: '二', meaning: "Two", onyomi: "ni", kunyomi: "futa", origin_story: "Two horizontal strokes stacked to represent the number two.", example_ja: "\u4e8c\u4eba", example_read: "futari", example_en: "Two people", difficulty: 'easy' },
-                    { kanji: '三', meaning: "Three", onyomi: "san", kunyomi: "mi", origin_story: "Three horizontal strokes — the counting pattern for one, two, three.", example_ja: "\u4e09\u65e5\u6708", example_read: "mikazuki", example_en: "Crescent moon (3rd-day moon)", difficulty: 'easy' },
-                    { kanji: '四', meaning: "Four", onyomi: "shi", kunyomi: "yo, yon", origin_story: "An enclosure with divided inner strokes; originally depicted nostrils or breath.", example_ja: "\u56db\u5b63", example_read: "shiki", example_en: "Four seasons", difficulty: 'easy' },
-                    { kanji: '五', meaning: "Five", onyomi: "go", kunyomi: "itsu", origin_story: "Crossed strokes between two horizontal lines — an ancient numeral for five.", example_ja: "\u4e94\u611f", example_read: "gokan", example_en: "The five senses", difficulty: 'easy' },
-                    { kanji: '六', meaning: "Six", onyomi: "roku", kunyomi: "mu", origin_story: "A lid radical with diverging lower strokes, representing six.", example_ja: "\u516d\u672c\u6728", example_read: "Roppongi", example_en: "Roppongi (place name)", difficulty: 'easy' },
-                    { kanji: '七', meaning: "Seven", onyomi: "shichi", kunyomi: "nana", origin_story: "A bent stroke crossing a horizontal line — an abstract numeral for seven.", example_ja: "\u4e03\u5915", example_read: "tanabata", example_en: "Star Festival", difficulty: 'easy' },
-                    { kanji: '八', meaning: "Eight", onyomi: "hachi", kunyomi: "ya", origin_story: "Two strokes spreading apart, suggesting division — the character for eight.", example_ja: "\u516b\u767e\u5c4b", example_read: "yaoya", example_en: "Greengrocer", difficulty: 'easy' },
-                    { kanji: '九', meaning: "Nine", onyomi: "ku, kyuu", origin_story: "A single hooked stroke suggesting a bent arm — the numeral for nine.", example_ja: "\u4e5d\u5dde", example_read: "Kyuushuu", example_en: "Kyushu (island)", difficulty: 'easy' },
-                    { kanji: '十', meaning: "Ten", onyomi: "juu", kunyomi: "too", origin_story: "A cross of vertical and horizontal strokes, representing ten or completeness.", example_ja: "\u5341\u5206", example_read: "juubun", example_en: "Enough / Sufficient", difficulty: 'easy' },
-                    { kanji: '百', meaning: "Hundred", onyomi: "hyaku", origin_story: "一 (one) placed over 白 (white); originally signified a large number.", example_ja: "\u767e\u8ca8\u5e97", example_read: "hyakkaten", example_en: "Department store", difficulty: 'medium' },
-                    { kanji: '千', meaning: "Thousand", onyomi: "sen", origin_story: "A modified form of 人 (person) with a top stroke, symbolizing a thousand.", example_ja: "\u5343\u8449", example_read: "Chiba", example_en: "Chiba (prefecture, lit. Thousand leaves)", difficulty: 'easy' },
-                    { kanji: '万', meaning: "Ten Thousand", onyomi: "man, ban", origin_story: "A simplified ancient pictograph now used exclusively for ten thousand.", example_ja: "\u4e07\u6b73", example_read: "banzai", example_en: "Hurrah / Long life", difficulty: 'easy' },
-                    { kanji: '円', meaning: "Yen", onyomi: "en", kunyomi: "maru", origin_story: "Simplified form of 圓 (round); an enclosure representing a circle or yen.", example_ja: "\u5186\u6ed1", example_read: "enkatsu", example_en: "Smooth / Unhindered", difficulty: 'easy' },
-                    { kanji: '日', meaning: "Day", onyomi: "nichi, jitsu", kunyomi: "hi, -ka", origin_story: "A rectangle with a center line — a pictograph of the sun.", example_ja: "\u65e5\u66dc\u65e5", example_read: "nichiyoubi", example_en: "Sunday", difficulty: 'easy' },
-                    { kanji: '月', meaning: "Month", onyomi: "getsu, gatsu", kunyomi: "tsuki", origin_story: "A crescent form with inner strokes — a pictograph of the moon.", example_ja: "\u4eca\u6708", example_read: "kongetsu", example_en: "This month", difficulty: 'easy' },
-                    { kanji: '火', meaning: "Fire", onyomi: "ka", kunyomi: "hi", origin_story: "Rising flames with sparks on either side — a pictograph of fire.", example_ja: "\u82b1\u706b", example_read: "hanabi", example_en: "Fireworks", difficulty: 'easy' },
-                    { kanji: '水', meaning: "Water", onyomi: "sui", kunyomi: "mizu", origin_story: "A central flow with splashing drops — a pictograph of water.", example_ja: "\u6c34\u661f", example_read: "suisei", example_en: "Mercury (planet)", difficulty: 'easy' },
-                    { kanji: '木', meaning: "Tree", onyomi: "moku, boku", kunyomi: "ki", origin_story: "Branches above and roots below — a pictograph of a tree.", example_ja: "\u6728\u6f0f\u308c\u65e5", example_read: "komorebi", example_en: "Sunlight filtering through trees", difficulty: 'easy' },
-                    { kanji: '金', meaning: "Gold", onyomi: "kin", kunyomi: "kane", origin_story: "人 (lid) over a structure with 土 (earth) and dots for metal nuggets — gold or metal.", example_ja: "\u304a\u91d1\u6301\u3061", example_read: "okanemochi", example_en: "Rich person", difficulty: 'medium' },
-                    { kanji: '土', meaning: "Earth", onyomi: "do", kunyomi: "tsuchi", origin_story: "A cross planted on the ground — a pictograph of earth or soil.", example_ja: "\u304a\u571f\u7523", example_read: "omiyage", example_en: "Souvenir", difficulty: 'easy' },
-                    { kanji: '山', meaning: "Mountain", onyomi: "san", kunyomi: "yama", origin_story: "Three peaks rising upward — a pictograph of mountains.", example_ja: "\u5bcc\u58eb\u5c71", example_read: "Fujisan", example_en: "Mount Fuji", difficulty: 'easy' },
-                    { kanji: '川', meaning: "River", onyomi: "sen", kunyomi: "kawa", origin_story: "Three flowing vertical lines — a pictograph of a river's currents.", example_ja: "\u5929\u306e\u5ddd", example_read: "amanogawa", example_en: "The Milky Way", difficulty: 'easy' },
-                    { kanji: '人', meaning: "Person", onyomi: "jin, nin", kunyomi: "hito", origin_story: "Two strokes leaning together — a side view of a person walking.", example_ja: "\u4eba\u9593", example_read: "ningen", example_en: "Human being", difficulty: 'easy' },
-                    { kanji: '男', meaning: "Man", onyomi: "dan", kunyomi: "otoko", origin_story: "田 (rice field) + 力 (strength): one who works the fields with power.", example_ja: "\u7537\u306e\u5b50", example_read: "otokonoko", example_en: "Boy", difficulty: 'medium' },
-                    { kanji: '女', meaning: "Woman", onyomi: "jo", kunyomi: "onna", origin_story: "A kneeling figure with crossed arms — an ancient pictograph of a woman.", example_ja: "\u5973\u795e", example_read: "megami", example_en: "Goddess", difficulty: 'easy' },
-                    { kanji: '子', meaning: "Child", onyomi: "shi, su", kunyomi: "ko", origin_story: "A swaddled infant with a large head — a pictograph of a child.", example_ja: "\u8ff7\u5b50", example_read: "maigo", example_en: "Lost child", difficulty: 'easy' },
-                    { kanji: '目', meaning: "Eye", onyomi: "moku", kunyomi: "me", origin_story: "A vertical eye shape with horizontal lines for the pupil — a pictograph of an eye.", example_ja: "\u76ee\u7684", example_read: "mokuteki", example_en: "Purpose / Goal", difficulty: 'easy' },
-                    { kanji: '耳', meaning: "Ear", onyomi: "ji", kunyomi: "mimi", origin_story: "A pictograph of the outer ear with internal curves representing its structure.", example_ja: "\u8033\u6253\u3061", example_read: "mimiuchi", example_en: "Whispering in ear", difficulty: 'medium' },
-                    { kanji: '口', meaning: "Mouth", onyomi: "kou", kunyomi: "kuchi", origin_story: "A simple open square — a pictograph of a mouth.", example_ja: "\u975e\u5e38\u53e3", example_read: "hijouguchi", example_en: "Emergency exit", difficulty: 'easy' },
-                    { kanji: '手', meaning: "Hand", onyomi: "shu", kunyomi: "te", origin_story: "A simplified pictograph of a hand with spread fingers and a wrist.", example_ja: "\u82e6\u624b", example_read: "nigate", example_en: "Weak at / Dislike", difficulty: 'easy' },
-                    { kanji: '足', meaning: "Foot", onyomi: "soku", kunyomi: "ashi", origin_story: "口 (kneecap) above a foot in motion — combining leg and sufficiency.", example_ja: "\u6e80\u8db3", example_read: "manzoku", example_en: "Satisfaction", difficulty: 'medium' },
-                    { kanji: '上', meaning: "Up", onyomi: "jou", kunyomi: "ue", origin_story: "A stroke above a baseline indicating the concept of up or above.", example_ja: "\u4e0a\u624b", example_read: "jouzu", example_en: "Skillful", difficulty: 'easy' },
-                    { kanji: '下', meaning: "Down", onyomi: "ka, ge", kunyomi: "shita", origin_story: "A stroke below a baseline indicating the concept of down or below.", example_ja: "\u5730\u4e0b\u9244", example_read: "chikatetsu", example_en: "Subway", difficulty: 'easy' },
-                    { kanji: '中', meaning: "Middle", onyomi: "chuu", kunyomi: "naka", origin_story: "A vertical line through a rectangle — showing something in the middle.", example_ja: "\u4e16\u754c\u4e2d", example_read: "sekaijuu", example_en: "All over the world", difficulty: 'easy' },
-                    { kanji: '外', meaning: "Outside", onyomi: "gai", kunyomi: "soto, hoka", origin_story: "夕 (evening) + 卜 (divination): what lies beyond or outside the norm.", example_ja: "\u5916\u56fd\u4eba", example_read: "gaikokujin", example_en: "Foreigner", difficulty: 'easy' },
-                    { kanji: '右', meaning: "Right", onyomi: "u, yuu", kunyomi: "migi", origin_story: "ナ (hand) + 口 (mouth): the hand that feeds — traditionally the right hand.", example_ja: "\u53f3\u5229\u304d", example_read: "migikiki", example_en: "Right-handed", difficulty: 'easy' },
-                    { kanji: '左', meaning: "Left", onyomi: "sa", kunyomi: "hidari", origin_story: "ナ (hand) + 工 (craft): the hand that holds tools — traditionally the left hand.", example_ja: "\u5de6\u7ffc", example_read: "sayoku", example_en: "Left-wing", difficulty: 'easy' },
-                    { kanji: '大', meaning: "Big", onyomi: "dai, tai", kunyomi: "oo", origin_story: "A person with arms spread wide — representing big or great.", example_ja: "\u5927\u4e08\u592b", example_read: "daijoubu", example_en: "Okay / All right", difficulty: 'easy' },
-                    { kanji: '小', meaning: "Small", onyomi: "shou", kunyomi: "chii", origin_story: "A vertical line with two small dots — something divided into tiny parts.", example_ja: "\u5c0f\u8aac", example_read: "shousetsu", example_en: "Novel", difficulty: 'easy' },
-                    { kanji: '高', meaning: "High", onyomi: "kou", kunyomi: "taka", origin_story: "A pictograph of a tall building with a base and roof — tall or expensive.", example_ja: "\u9ad8\u6821", example_read: "koukou", example_en: "High school", difficulty: 'hard' },
-                    { kanji: '安', meaning: "Cheap", onyomi: "an", kunyomi: "yasu", origin_story: "宀 (roof) + 女 (woman): safety and peace found under shelter. \"safe\". Problematic.", example_ja: "\u5b89\u5fc3", example_read: "anshin", example_en: "Peace of mind / Relief", difficulty: 'medium' },
-                    { kanji: '新', meaning: "New", onyomi: "shin", kunyomi: "atara", origin_story: "立 (stand) + 木 (tree) + 斤 (axe): freshly cut wood — something new.", example_ja: "\u65b0\u5e79\u7dda", example_read: "shinkansen", example_en: "Bullet train", difficulty: 'hard' },
-                    { kanji: '古', meaning: "Old", onyomi: "ko", kunyomi: "furu", origin_story: "十 (ten) + 口 (mouth): passed through ten mouths (generations) — old.", example_ja: "\u4e2d\u53e4", example_read: "chuuko", example_en: "Used / Secondhand", difficulty: 'easy' },
-                    { kanji: '長', meaning: "Long", onyomi: "chou", kunyomi: "naga", origin_story: "A pictograph of an elder with long flowing hair — long or leader.", example_ja: "\u793e\u9577", example_read: "shachou", example_en: "Company president", difficulty: 'medium' },
-                    { kanji: '多', meaning: "Many", onyomi: "ta", kunyomi: "oo", origin_story: "Two 夕 (evening) stacked; many evenings imply many or much.", example_ja: "\u591a\u5206", example_read: "tabun", example_en: "Probably", difficulty: 'medium' },
-                    { kanji: '少', meaning: "Few", onyomi: "shou", kunyomi: "suko", origin_story: "小 (small) with an extra stroke, emphasizing few or a little. \"small\" kanji (小) missing a leg. Tragic.", example_ja: "\u5c11\u5973", example_read: "shoujo", example_en: "Young girl", difficulty: 'easy' },
-                    { kanji: '早', meaning: "Early", onyomi: "sou", kunyomi: "haya", origin_story: "日 (sun) + 十 (cross): the sun at the start of the day — early.", example_ja: "\u65e9\u8d77\u304d", example_read: "hayaoki", example_en: "Early rising", difficulty: 'medium' },
-                    { kanji: '行', meaning: "Go", onyomi: "kou, gyou", kunyomi: "i(ku)", origin_story: "A pictograph of a crossroads — to go or a road.", example_ja: "\u65c5\u884c", example_read: "ryokou", example_en: "Travel / Trip", difficulty: 'medium' },
-                    { kanji: '来', meaning: "Come", onyomi: "rai", kunyomi: "ku(ru)", origin_story: "Originally a pictograph of wheat stalks; borrowed to mean come or next.", example_ja: "\u6765\u5e74", example_read: "rainen", example_en: "Next year", difficulty: 'medium' },
-                    { kanji: '食', meaning: "Eat", onyomi: "shoku", kunyomi: "ta(beru)", origin_story: "A lid over a vessel of food (良) — representing eat or meal.", example_ja: "\u98df\u3079\u653e\u984c", example_read: "tabehoudai", example_en: "All-you-can-eat", difficulty: 'medium' },
-                    { kanji: '飲', meaning: "Drink", onyomi: "in", kunyomi: "no(mu)", origin_story: "食 (food) + 欠 (open mouth): opening the mouth to take in liquid — drink.", example_ja: "\u98f2\u307f\u7269", example_read: "nomimono", example_en: "Drink / Beverage", difficulty: 'hard' },
-                    { kanji: '見', meaning: "See", onyomi: "ken", kunyomi: "mi(ru)", origin_story: "目 (eye) over 儿 (legs): a person looking — to see.", example_ja: "\u82b1\u898b", example_read: "hanami", example_en: "Cherry blossom viewing", difficulty: 'medium' },
-                    { kanji: '聞', meaning: "Hear", onyomi: "bun, mon", kunyomi: "ki(ku)", origin_story: "耳 (ear) inside 門 (gate): listening at the gate — to hear or to ask.", example_ja: "\u65b0\u805e", example_read: "shinbun", example_en: "Newspaper", difficulty: 'hard' },
-                    { kanji: '読', meaning: "Read", onyomi: "doku", kunyomi: "yo(mu)", origin_story: "言 (words) + 売 (sell): originally to recite aloud, now to read.", example_ja: "\u8aad\u66f8", example_read: "dokusho", example_en: "Reading books", difficulty: 'hard' },
-                    { kanji: '書', meaning: "Write", onyomi: "sho", kunyomi: "ka(ku)", origin_story: "聿 (writing brush) below horizontal strokes — to write or document.", example_ja: "\u56f3\u66f8\u9928", example_read: "toshokan", example_en: "Library", difficulty: 'hard' },
-                    { kanji: '話', meaning: "Talk", onyomi: "wa", kunyomi: "hana(su)", origin_story: "言 (words) + 舌 (tongue): using words with the tongue — to talk.", example_ja: "\u96fb\u8a71", example_read: "denwa", example_en: "Telephone", difficulty: 'hard' },
-                    { kanji: '買', meaning: "Buy", onyomi: "bai", kunyomi: "ka(u)", origin_story: "网 (net) + 貝 (shell currency): gathering currency — to buy.", example_ja: "\u8cb7\u3044\u7269", example_read: "kaimono", example_en: "Shopping", difficulty: 'hard' },
-                    { kanji: '教', meaning: "Teach", onyomi: "kyou", kunyomi: "oshi(eru)", origin_story: "孝 (filial piety) + 攵 (strike): guiding with discipline — to teach.", example_ja: "\u6559\u5ba4", example_read: "kyoushitsu", example_en: "Classroom", difficulty: 'hard' },
-                    { kanji: '休', meaning: "Rest", onyomi: "kyuu", kunyomi: "yasu(mu)", origin_story: "人 (person) + 木 (tree): a person leaning against a tree to rest.", example_ja: "\u590f\u4f11\u307f", example_read: "natsuyasumi", example_en: "Summer vacation", difficulty: 'medium' },
-                    { kanji: '立', meaning: "Stand", onyomi: "ritsu", kunyomi: "ta(tsu)", origin_story: "A person standing on the ground, seen from the front — to stand or establish.", example_ja: "\u76ee\u7acb\u3064", example_read: "medatsu", example_en: "To stand out", difficulty: 'easy' },
-                    { kanji: '座', meaning: "Sit", onyomi: "za", kunyomi: "suwa(ru)", origin_story: "广 (shelter) + 人人 (people) + 土 (ground): people sitting together — seat.", example_ja: "\u53e3\u5ea7", example_read: "kouza", example_en: "Bank account", difficulty: 'hard' },
-                    { kanji: '今', meaning: "Now", onyomi: "kon", kunyomi: "ima", origin_story: "A lid containing a point within — capturing this very moment.", example_ja: "\u4eca\u65e5", example_read: "kyou", example_en: "Today", difficulty: 'easy' },
-                    { kanji: '時', meaning: "Time", onyomi: "ji", kunyomi: "toki", origin_story: "日 (sun) + 寺 (temple): tracking the sun's position — time or hour.", example_ja: "\u6642\u8a08", example_read: "tokei", example_en: "Clock / Watch", difficulty: 'hard' },
-                    { kanji: '分', meaning: "Minute", onyomi: "bun, fun", kunyomi: "wa(karu)", origin_story: "八 (divide) + 刀 (knife): cutting apart — minute, part, or understand.", example_ja: "\u81ea\u5206", example_read: "jibun", example_en: "Myself / Oneself", difficulty: 'easy' },
-                    { kanji: '半', meaning: "Half", onyomi: "han", origin_story: "A vertical line cutting through — something split in two halves.", example_ja: "\u534a\u5e74", example_read: "hantoshi", example_en: "Half a year", difficulty: 'easy' },
-                    { kanji: '午', meaning: "Noon", onyomi: "go", origin_story: "Originally a pictograph of a pestle; used as noon, the midpoint of the day.", example_ja: "\u5348\u524d", example_read: "gozen", example_en: "Morning / AM", difficulty: 'easy' },
-                    { kanji: '前', meaning: "Before", onyomi: "zen", kunyomi: "mae", origin_story: "月 (flesh) + 刂 (blade) under a cover: preparation — before or front.", example_ja: "\u540d\u524d", example_read: "namae", example_en: "Name", difficulty: 'medium' },
-                    { kanji: '後', meaning: "After", onyomi: "go", kunyomi: "ushi(ro), ato", origin_story: "彳 (step) + 幺 (thread) + 夊 (trailing foot): lagging behind — after.", example_ja: "\u5348\u5f8c", example_read: "gogo", example_en: "Afternoon / PM", difficulty: 'medium' },
-                    { kanji: '去', meaning: "Past", onyomi: "kyo", kunyomi: "sa(ru)", origin_story: "土 (earth) + 厶 (private): leaving a place behind — past or to go away.", example_ja: "\u53bb\u5e74", example_read: "kyonen", example_en: "Last year", difficulty: 'easy' },
-                    { kanji: '年', meaning: "Year", onyomi: "nen", kunyomi: "toshi", origin_story: "A person carrying harvested grain — one harvest cycle equals one year.", example_ja: "\u4eca\u5e74", example_read: "kotoshi", example_en: "This year", difficulty: 'medium' },
-                    { kanji: '毎', meaning: "Every", onyomi: "mai", origin_story: "A variation of 母 (mother) with 屮 (sprout): recurring like new growth — every.", example_ja: "\u6bce\u65e5", example_read: "mainichi", example_en: "Every day", difficulty: 'medium' },
-                    { kanji: '何', meaning: "What", onyomi: "ka", kunyomi: "nani, nan", origin_story: "人 (person) + 可 (possible): a person carrying something unidentified — what? \"What is this?\"", example_ja: "\u4f55\u304b", example_read: "nanika", example_en: "Something", difficulty: 'medium' },
-                    { kanji: '春', meaning: "Spring", onyomi: "shun", kunyomi: "haru", origin_story: "屯 (sprouting) + 日 (sun): buds opening under the spring sun.", example_ja: "\u9752\u6625", example_read: "seishun", example_en: "Youth", difficulty: 'medium' },
-                    { kanji: '夏', meaning: "Summer", onyomi: "ka", kunyomi: "natsu", origin_story: "A figure in a large ceremonial mask — ancient summer festival imagery.", example_ja: "\u771f\u590f", example_read: "manatsu", example_en: "Midsummer", difficulty: 'hard' },
-                    { kanji: '秋', meaning: "Autumn", onyomi: "shuu", kunyomi: "aki", origin_story: "禾 (grain) + 火 (fire): drying grain by fire at harvest — autumn.", example_ja: "\u79cb\u5206", example_read: "shuubun", example_en: "Autumnal equinox", difficulty: 'medium' },
-                    { kanji: '冬', meaning: "Winter", onyomi: "tou", kunyomi: "fuyu", origin_story: "Simplified strokes suggesting ice crystals — the end of the seasonal cycle.", example_ja: "\u771f\u51ac", example_read: "mafuyu", example_en: "Midwinter", difficulty: 'easy' },
-                    { kanji: '北', meaning: "North", onyomi: "hoku", kunyomi: "kita", origin_story: "Two figures back to back — originally to turn away, now indicating north.", example_ja: "\u5317\u6d77\u9053", example_read: "Hokkaidou", example_en: "Hokkaido (island)", difficulty: 'easy' },
-                    { kanji: '南', meaning: "South", onyomi: "nan", kunyomi: "minami", origin_story: "A pictograph of a warm-toned bell instrument, associated with the south.", example_ja: "\u5357\u53e3", example_read: "minamiguchi", example_en: "South exit", difficulty: 'medium' },
-                    { kanji: '東', meaning: "East", onyomi: "tou", kunyomi: "higashi", origin_story: "日 (sun) + 木 (tree): the sun rising through the trees — east.", example_ja: "\u6771\u4eac", example_read: "Toukyou", example_en: "Tokyo", difficulty: 'medium' },
-                    { kanji: '西', meaning: "West", onyomi: "sei", kunyomi: "nishi", origin_story: "A bird returning to its nest at sunset — the direction of west.", example_ja: "\u95a2\u897f", example_read: "Kansai", example_en: "Kansai (region)", difficulty: 'medium' },
-                    { kanji: '雨', meaning: "Rain", onyomi: "u", kunyomi: "ame", origin_story: "Droplets falling from a cloud within a frame — a pictograph of rain.", example_ja: "\u5927\u96e8", example_read: "ooame", example_en: "Heavy rain", difficulty: 'medium' },
-                    { kanji: '天', meaning: "Heaven", onyomi: "ten", origin_story: "一 (skyline) + 大 (person): the great expanse above a person — heaven.", example_ja: "\u5929\u6c17", example_read: "tenki", example_en: "Weather", difficulty: 'easy' },
-                    { kanji: '空', meaning: "Sky", onyomi: "kuu", kunyomi: "sora", origin_story: "穴 (cave) + 工 (craft): a hollowed-out space — sky or empty.", example_ja: "\u7a7a\u6c17", example_read: "kuuki", example_en: "Air / Atmosphere", difficulty: 'medium' },
-                    { kanji: '気', meaning: "Spirit", onyomi: "ki", origin_story: "气 (rising steam) + 米 (rice): vapor from cooking — spirit or energy.", example_ja: "\u5143\u6c17", example_read: "genki", example_en: "Healthy / Energetic", difficulty: 'medium' },
-                    { kanji: '車', meaning: "Car", onyomi: "sha", kunyomi: "kuruma", origin_story: "A top-down view of an axle with wheels — a pictograph of a cart.", example_ja: "\u96fb\u8eca", example_read: "densha", example_en: "Train", difficulty: 'medium' },
-                    { kanji: '電', meaning: "Electricity", onyomi: "den", origin_story: "雨 (rain) + 电 (flash): a bolt of lightning in the rain — electricity.", example_ja: "\u96fb\u8a71", example_read: "denwa", example_en: "Telephone", difficulty: 'hard' },
-                    { kanji: '馬', meaning: "Horse", onyomi: "ba", kunyomi: "uma", origin_story: "A pictograph of a horse showing its mane, body, and legs.", example_ja: "\u4e57\u99ac", example_read: "jouba", example_en: "Horse riding", difficulty: 'hard' },
-                    { kanji: '魚', meaning: "Fish", onyomi: "gyo", kunyomi: "sakana", origin_story: "A pictograph of a fish — head, body, and tail visible in the form.", example_ja: "\u91d1\u9b5a", example_read: "kingyo", example_en: "Goldfish", difficulty: 'hard' },
-                    { kanji: '鳥', meaning: "Bird", onyomi: "chou", kunyomi: "tori", origin_story: "A pictograph of a bird — head, wings, and tail feathers.", example_ja: "\u713c\u304d\u9ce5", example_read: "yakitori", example_en: "Grilled chicken skewers", difficulty: 'hard' },
-                    { kanji: '語', meaning: "Language", onyomi: "go", kunyomi: "kata(ru)", origin_story: "言 (words) + 吾 (self, from 五 + 口): one's own words — language.", example_ja: "\u65e5\u672c\u8a9e", example_read: "nihongo", example_en: "Japanese language", difficulty: 'hard' },
-                    { kanji: '名', meaning: "Name", onyomi: "mei, myou", kunyomi: "na", origin_story: "夕 (evening) + 口 (mouth): calling one's name in the dark — name.", example_ja: "\u6709\u540d", example_read: "yuumei", example_en: "Famous", difficulty: 'medium' },
-                    { kanji: '店', meaning: "Shop", onyomi: "ten", kunyomi: "mise", origin_story: "广 (building) + 占 (occupy): a place of business — shop or store.", example_ja: "\u55ab\u8336\u5e97", example_read: "kissaten", example_en: "Coffee shop", difficulty: 'medium' },
-                    { kanji: '駅', meaning: "Station", onyomi: "eki", origin_story: "馬 (horse) + 尺 (measure): a horse-relay stop — station.", example_ja: "\u99c5\u9577", example_read: "ekichou", example_en: "Stationmaster", difficulty: 'hard' },
-                    { kanji: '道', meaning: "Road", onyomi: "dou", kunyomi: "michi", origin_story: "辶 (movement) + 首 (head): following a path with intent — road or way.", example_ja: "\u67d4\u9053", example_read: "juudou", example_en: "Judo", difficulty: 'hard' },
-                    { kanji: '社', meaning: "Company", onyomi: "sha", origin_story: "示 (altar) + 土 (earth): sacred ground — shrine or company.", example_ja: "\u4f1a\u793e", example_read: "kaisha", example_en: "Company", difficulty: 'medium' },
-                    { kanji: '国', meaning: "Country", onyomi: "koku", kunyomi: "kuni", origin_story: "囗 (border) + 玉 (jewel): territory guarding a treasure — country.", example_ja: "\u5916\u56fd", example_read: "gaikoku", example_en: "Foreign country", difficulty: 'medium' },
-                    { kanji: '白', meaning: "White", onyomi: "haku", kunyomi: "shiro", origin_story: "A pictograph of a bright, blank surface — white.", example_ja: "\u9762\u767d\u3044", example_read: "omoshiroi", example_en: "Interesting", difficulty: 'easy' },
-                    { kanji: '黒', meaning: "Black", onyomi: "koku", kunyomi: "kuro", origin_story: "里 (village) + 灬 (fire): blackened by soot — black.", example_ja: "\u9ed2\u677f", example_read: "kokuban", example_en: "Blackboard", difficulty: 'hard' },
-                    { kanji: '赤', meaning: "Red", onyomi: "seki", kunyomi: "aka", origin_story: "大 (big) + 火 (fire): the color of a great fire — red.", example_ja: "\u8d64\u3061\u3083\u3093", example_read: "akachan", example_en: "Baby", difficulty: 'medium' },
-                    { kanji: '青', meaning: "Blue", onyomi: "sei", kunyomi: "ao", origin_story: "生 (growth) + 月 (moon): fresh young growth — blue or green.", example_ja: "\u9752\u5e74", example_read: "seinen", example_en: "Youth / Young man", difficulty: 'medium' },
-                    { kanji: '入', meaning: "Enter", onyomi: "nyuu", kunyomi: "i(ru)", origin_story: "Two strokes angling inward — to enter.", example_ja: "\u5165\u53e3", example_read: "iriguchi", example_en: "Entrance", difficulty: 'easy' },
-                    { kanji: '出', meaning: "Exit", onyomi: "shutsu", kunyomi: "de(ru)", origin_story: "Repeated mountain-like strokes suggesting emergence — to exit or go out.", example_ja: "\u51fa\u53e3", example_read: "deguchi", example_en: "Exit", difficulty: 'easy' },
-                    { kanji: '友', meaning: "Friend", onyomi: "yuu", kunyomi: "tomo", origin_story: "Two right hands (又) reaching together — friend.", example_ja: "\u53cb\u9054", example_read: "tomodachi", example_en: "Friend", difficulty: 'easy' },
-                    { kanji: '校', meaning: "School", onyomi: "kou", origin_story: "木 (tree) + 交 (cross/exchange): a place of exchange and learning — school.", example_ja: "\u5b66\u6821", example_read: "gakkou", example_en: "School", difficulty: 'hard' },
-                    { kanji: '勉', meaning: "Study", onyomi: "ben", origin_story: "免 (effort) + 力 (power): applying strength through difficulty — exertion.", example_ja: "\u52c9\u5f37", example_read: "benkyou", example_en: "Study", difficulty: 'hard' },
-                    { kanji: '母', meaning: "Mother", onyomi: "bo", kunyomi: "haha", origin_story: "A woman figure with two dots for nurturing — a pictograph of mother.", example_ja: "\u304a\u6bcd\u3055\u3093", example_read: "okaasan", example_en: "Mother", difficulty: 'easy' },
-                    { kanji: '父', meaning: "Father", onyomi: "fu", kunyomi: "chichi", origin_story: "A hand holding an axe — a pictograph of a father figure.", example_ja: "\u304a\u7236\u3055\u3093", example_read: "otousan", example_en: "Father", difficulty: 'easy' },
-                    { kanji: '学', meaning: "Study", onyomi: "gaku", kunyomi: "mana(bu)", origin_story: "子 (child) under a roof with reaching hands — to study or learning.", example_ja: "\u5b66\u751f", example_read: "gakusei", example_en: "Student", difficulty: 'medium' },
-                    { kanji: '先', meaning: "Ahead", onyomi: "sen", kunyomi: "saki", origin_story: "儿 (legs) stepping ahead of 土 (ground) — before or ahead.", example_ja: "\u5148\u751f", example_read: "sensei", example_en: "Teacher", difficulty: 'medium' },
-                    { kanji: '生', meaning: "Life", onyomi: "sei, shou", kunyomi: "nama", origin_story: "A sprout emerging from the soil — life, birth, or genuine.", example_ja: "\u8a95\u751f\u65e5", example_read: "tanjoubi", example_en: "Birthday", difficulty: 'easy' },
+                    { kanji: '一', meaning: "One", onyomi: "ichi", kunyomi: "hito", origin_story: "A single horizontal stroke representing the number one.", example_ja: "一つください。", example_read: "hitotsu kudasai.", example_en: "One, please.", difficulty: 'easy' },
+                    { kanji: '二', meaning: "Two", onyomi: "ni", kunyomi: "futa", origin_story: "Two horizontal strokes stacked to represent the number two.", example_ja: "二人でご飯を食べました。", example_read: "futari de gohan wo tabemashita.", example_en: "Two of us ate together.", difficulty: 'easy' },
+                    { kanji: '三', meaning: "Three", onyomi: "san", kunyomi: "mi", origin_story: "Three horizontal strokes — the counting pattern for one, two, three.", example_ja: "三時に来てください。", example_read: "sanji ni kite kudasai.", example_en: "Please come at 3 o'clock.", difficulty: 'easy' },
+                    { kanji: '四', meaning: "Four", onyomi: "shi", kunyomi: "yo, yon", origin_story: "An enclosure with divided inner strokes; originally depicted nostrils or breath.", example_ja: "四月は春です。", example_read: "shigatsu wa haru desu.", example_en: "April is spring.", difficulty: 'easy' },
+                    { kanji: '五', meaning: "Five", onyomi: "go", kunyomi: "itsu", origin_story: "Crossed strokes between two horizontal lines — an ancient numeral for five.", example_ja: "五分待ってください。", example_read: "gofun matte kudasai.", example_en: "Please wait five minutes.", difficulty: 'easy' },
+                    { kanji: '六', meaning: "Six", onyomi: "roku", kunyomi: "mu", origin_story: "A lid radical with diverging lower strokes, representing six.", example_ja: "六時に起きます。", example_read: "rokuji ni okimasu.", example_en: "I wake up at six.", difficulty: 'easy' },
+                    { kanji: '七', meaning: "Seven", onyomi: "shichi", kunyomi: "nana", origin_story: "A bent stroke crossing a horizontal line — an abstract numeral for seven.", example_ja: "七時に家を出ます。", example_read: "shichiji ni ie wo demasu.", example_en: "I leave home at seven.", difficulty: 'easy' },
+                    { kanji: '八', meaning: "Eight", onyomi: "hachi", kunyomi: "ya", origin_story: "Two strokes spreading apart, suggesting division — the character for eight.", example_ja: "八時に寝ます。", example_read: "hachiji ni nemasu.", example_en: "I go to bed at eight.", difficulty: 'easy' },
+                    { kanji: '九', meaning: "Nine", onyomi: "ku, kyuu", origin_story: "A single hooked stroke suggesting a bent arm — the numeral for nine.", example_ja: "今、九時です。", example_read: "ima, kuji desu.", example_en: "It is nine o'clock now.", difficulty: 'easy' },
+                    { kanji: '十', meaning: "Ten", onyomi: "juu", kunyomi: "too", origin_story: "A cross of vertical and horizontal strokes, representing ten or completeness.", example_ja: "十円あります。", example_read: "jyuuen arimasu.", example_en: "I have ten yen.", difficulty: 'easy' },
+                    { kanji: '百', meaning: "Hundred", onyomi: "hyaku", origin_story: "一 (one) placed over 白 (white); originally signified a large number.", example_ja: "百円ショップに行きます。", example_read: "hyakuen shoppu ni ikimasu.", example_en: "I'm going to the 100-yen shop.", difficulty: 'medium' },
+                    { kanji: '千', meaning: "Thousand", onyomi: "sen", origin_story: "A modified form of 人 (person) with a top stroke, symbolizing a thousand.", example_ja: "千円あります。", example_read: "sen-en arimasu.", example_en: "I have 1,000 yen.", difficulty: 'easy' },
+                    { kanji: '万', meaning: "Ten Thousand", onyomi: "man, ban", origin_story: "A simplified ancient pictograph now used exclusively for ten thousand.", example_ja: "一万円あります。", example_read: "ichiman-en arimasu.", example_en: "I have 10,000 yen.", difficulty: 'easy' },
+                    { kanji: '円', meaning: "Yen", onyomi: "en", kunyomi: "maru", origin_story: "Simplified form of 圓 (round); an enclosure representing a circle or yen.", example_ja: "これは百円です。", example_read: "kore wa hyakuen desu.", example_en: "This is 100 yen.", difficulty: 'easy' },
+                    { kanji: '日', meaning: "Day", onyomi: "nichi, jitsu", kunyomi: "hi, -ka", origin_story: "A rectangle with a center line — a pictograph of the sun.", example_ja: "今日はいい日です。", example_read: "kyou wa ii hi desu.", example_en: "Today is a good day.", difficulty: 'easy' },
+                    { kanji: '月', meaning: "Month", onyomi: "getsu, gatsu", kunyomi: "tsuki", origin_story: "A crescent form with inner strokes — a pictograph of the moon.", example_ja: "月がきれいです。", example_read: "tsuki ga kirei desu.", example_en: "The moon is beautiful.", difficulty: 'easy' },
+                    { kanji: '火', meaning: "Fire", onyomi: "ka", kunyomi: "hi", origin_story: "Rising flames with sparks on either side — a pictograph of fire.", example_ja: "火をつけました。", example_read: "hi wo tsukemashita.", example_en: "I lit the fire.", difficulty: 'easy' },
+                    { kanji: '水', meaning: "Water", onyomi: "sui", kunyomi: "mizu", origin_story: "A central flow with splashing drops — a pictograph of water.", example_ja: "水を飲みます。", example_read: "mizu wo nomimasu.", example_en: "I drink water.", difficulty: 'easy' },
+                    { kanji: '木', meaning: "Tree", onyomi: "moku, boku", kunyomi: "ki", origin_story: "Branches above and roots below — a pictograph of a tree.", example_ja: "この木は大きいです。", example_read: "kono ki wa ookii desu.", example_en: "This tree is big.", difficulty: 'easy' },
+                    { kanji: '金', meaning: "Gold", onyomi: "kin", kunyomi: "kane", origin_story: "人 (lid) over a structure with 土 (earth) and dots for metal nuggets — gold or metal.", example_ja: "お金がありません。", example_read: "okane ga arimasen.", example_en: "I have no money.", difficulty: 'medium' },
+                    { kanji: '土', meaning: "Earth", onyomi: "do", kunyomi: "tsuchi", origin_story: "A cross planted on the ground — a pictograph of earth or soil.", example_ja: "この土は黒いです。", example_read: "kono tsuchi wa kuroi desu.", example_en: "This soil is black.", difficulty: 'easy' },
+                    { kanji: '山', meaning: "Mountain", onyomi: "san", kunyomi: "yama", origin_story: "Three peaks rising upward — a pictograph of mountains.", example_ja: "山が見えます。", example_read: "yama ga miemasu.", example_en: "I can see the mountain.", difficulty: 'easy' },
+                    { kanji: '川', meaning: "River", onyomi: "sen", kunyomi: "kawa", origin_story: "Three flowing vertical lines — a pictograph of a river's currents.", example_ja: "川で魚を見ました。", example_read: "kawa de sakana wo mimashita.", example_en: "I saw fish in the river.", difficulty: 'easy' },
+                    { kanji: '人', meaning: "Person", onyomi: "jin, nin", kunyomi: "hito", origin_story: "Two strokes leaning together — a side view of a person walking.", example_ja: "外に人がいます。", example_read: "soto ni hito ga imasu.", example_en: "There are people outside.", difficulty: 'easy' },
+                    { kanji: '男', meaning: "Man", onyomi: "dan", kunyomi: "otoko", origin_story: "田 (rice field) + 力 (strength): one who works the fields with power.", example_ja: "あの男の人は先生です。", example_read: "ano otoko no hito wa sensei desu.", example_en: "That man is a teacher.", difficulty: 'medium' },
+                    { kanji: '女', meaning: "Woman", onyomi: "jo", kunyomi: "onna", origin_story: "A kneeling figure with crossed arms — an ancient pictograph of a woman.", example_ja: "女の子が来ました。", example_read: "onna no ko ga kimashita.", example_en: "A girl came.", difficulty: 'easy' },
+                    { kanji: '子', meaning: "Child", onyomi: "shi, su", kunyomi: "ko", origin_story: "A swaddled infant with a large head — a pictograph of a child.", example_ja: "子どもが来ました。", example_read: "kodomo ga kimashita.", example_en: "A child came.", difficulty: 'easy' },
+                    { kanji: '目', meaning: "Eye", onyomi: "moku", kunyomi: "me", origin_story: "A vertical eye shape with horizontal lines for the pupil — a pictograph of an eye.", example_ja: "目が大きいです。", example_read: "me ga ookii desu.", example_en: "The eyes are big.", difficulty: 'easy' },
+                    { kanji: '耳', meaning: "Ear", onyomi: "ji", kunyomi: "mimi", origin_story: "A pictograph of the outer ear with internal curves representing its structure.", example_ja: "耳で聞きます。", example_read: "mimi de kikimasu.", example_en: "I listen with my ears.", difficulty: 'medium' },
+                    { kanji: '口', meaning: "Mouth", onyomi: "kou", kunyomi: "kuchi", origin_story: "A simple open square — a pictograph of a mouth.", example_ja: "口を開けてください。", example_read: "kuchi wo akete kudasai.", example_en: "Please open your mouth.", difficulty: 'easy' },
+                    { kanji: '手', meaning: "Hand", onyomi: "shu", kunyomi: "te", origin_story: "A simplified pictograph of a hand with spread fingers and a wrist.", example_ja: "手を上げてください。", example_read: "te wo agete kudasai.", example_en: "Please raise your hand.", difficulty: 'easy' },
+                    { kanji: '足', meaning: "Foot", onyomi: "soku", kunyomi: "ashi", origin_story: "口 (kneecap) above a foot in motion — combining leg and sufficiency.", example_ja: "足が速いです。", example_read: "ashi ga hayai desu.", example_en: "My legs are fast.", difficulty: 'medium' },
+                    { kanji: '上', meaning: "Up", onyomi: "jou", kunyomi: "ue", origin_story: "A stroke above a baseline indicating the concept of up or above.", example_ja: "本は上にあります。", example_read: "hon wa ue ni arimasu.", example_en: "The book is on top.", difficulty: 'easy' },
+                    { kanji: '下', meaning: "Down", onyomi: "ka, ge", kunyomi: "shita", origin_story: "A stroke below a baseline indicating the concept of down or below.", example_ja: "犬は下にいます。", example_read: "inu wa shita ni imasu.", example_en: "The dog is below.", difficulty: 'easy' },
+                    { kanji: '中', meaning: "Middle", onyomi: "chuu", kunyomi: "naka", origin_story: "A vertical line through a rectangle — showing something in the middle.", example_ja: "中に入ってください。", example_read: "naka ni haitte kudasai.", example_en: "Please come inside.", difficulty: 'easy' },
+                    { kanji: '外', meaning: "Outside", onyomi: "gai", kunyomi: "soto, hoka", origin_story: "夕 (evening) + 卜 (divination): what lies beyond or outside the norm.", example_ja: "外は寒いです。", example_read: "soto wa samui desu.", example_en: "It's cold outside.", difficulty: 'easy' },
+                    { kanji: '右', meaning: "Right", onyomi: "u, yuu", kunyomi: "migi", origin_story: "ナ (hand) + 口 (mouth): the hand that feeds — traditionally the right hand.", example_ja: "右を見てください。", example_read: "migi wo mite kudasai.", example_en: "Please look to the right.", difficulty: 'easy' },
+                    { kanji: '左', meaning: "Left", onyomi: "sa", kunyomi: "hidari", origin_story: "ナ (hand) + 工 (craft): the hand that holds tools — traditionally the left hand.", example_ja: "左に行ってください。", example_read: "hidari ni itte kudasai.", example_en: "Please go left.", difficulty: 'easy' },
+                    { kanji: '大', meaning: "Big", onyomi: "dai, tai", kunyomi: "oo", origin_story: "A person with arms spread wide — representing big or great.", example_ja: "この犬は大きいです。", example_read: "kono inu wa ookii desu.", example_en: "This dog is big.", difficulty: 'easy' },
+                    { kanji: '小', meaning: "Small", onyomi: "shou", kunyomi: "chii", origin_story: "A vertical line with two small dots — something divided into tiny parts.", example_ja: "猫は小さいです。", example_read: "neko wa chiisai desu.", example_en: "The cat is small.", difficulty: 'easy' },
+                    { kanji: '高', meaning: "High", onyomi: "kou", kunyomi: "taka", origin_story: "A pictograph of a tall building with a base and roof — tall or expensive.", example_ja: "このかばんは高いです。", example_read: "kono kaban wa takai desu.", example_en: "This bag is expensive.", difficulty: 'hard' },
+                    { kanji: '安', meaning: "Cheap", onyomi: "an", kunyomi: "yasu", origin_story: "宀 (roof) + 女 (woman): safety and peace found under shelter. \"safe\". Problematic.", example_ja: "このりんごは安いです。", example_read: "kono ringo wa yasui desu.", example_en: "This apple is cheap.", difficulty: 'medium' },
+                    { kanji: '新', meaning: "New", onyomi: "shin", kunyomi: "atara", origin_story: "立 (stand) + 木 (tree) + 斤 (axe): freshly cut wood — something new.", example_ja: "新しい本を買いました。", example_read: "atarashii hon wo kaimashita.", example_en: "I bought a new book.", difficulty: 'hard' },
+                    { kanji: '古', meaning: "Old", onyomi: "ko", kunyomi: "furu", origin_story: "十 (ten) + 口 (mouth): passed through ten mouths (generations) — old.", example_ja: "この本は古いです。", example_read: "kono hon wa furui desu.", example_en: "This book is old.", difficulty: 'easy' },
+                    { kanji: '長', meaning: "Long", onyomi: "chou", kunyomi: "naga", origin_story: "A pictograph of an elder with long flowing hair — long or leader.", example_ja: "先生の話は長いです。", example_read: "sensei no hanashi wa nagai desu.", example_en: "The teacher's speech is long.", difficulty: 'medium' },
+                    { kanji: '多', meaning: "Many", onyomi: "ta", kunyomi: "oo", origin_story: "Two 夕 (evening) stacked; many evenings imply many or much.", example_ja: "今日は人が多いです。", example_read: "kyou wa hito ga ooi desu.", example_en: "There are many people today.", difficulty: 'medium' },
+                    { kanji: '少', meaning: "Few", onyomi: "shou", kunyomi: "suko", origin_story: "小 (small) with an extra stroke, emphasizing few or a little. \"small\" kanji (小) missing a leg. Tragic.", example_ja: "時間が少ないです。", example_read: "jikan ga sukunai desu.", example_en: "I have little time.", difficulty: 'easy' },
+                    { kanji: '早', meaning: "Early", onyomi: "sou", kunyomi: "haya", origin_story: "日 (sun) + 十 (cross): the sun at the start of the day — early.", example_ja: "今日は早く来ました。", example_read: "kyou wa hayaku kimashita.", example_en: "I came early today.", difficulty: 'medium' },
+                    { kanji: '行', meaning: "Go", onyomi: "kou, gyou", kunyomi: "i(ku)", origin_story: "A pictograph of a crossroads — to go or a road.", example_ja: "学校に行きます。", example_read: "gakkou ni ikimasu.", example_en: "I go to school.", difficulty: 'medium' },
+                    { kanji: '来', meaning: "Come", onyomi: "rai", kunyomi: "ku(ru)", origin_story: "Originally a pictograph of wheat stalks; borrowed to mean come or next.", example_ja: "友だちが来ました。", example_read: "tomodachi ga kimashita.", example_en: "My friend came.", difficulty: 'medium' },
+                    { kanji: '食', meaning: "Eat", onyomi: "shoku", kunyomi: "ta(beru)", origin_story: "A lid over a vessel of food (良) — representing eat or meal.", example_ja: "ご飯を食べます。", example_read: "gohan wo tabemasu.", example_en: "I eat rice.", difficulty: 'medium' },
+                    { kanji: '飲', meaning: "Drink", onyomi: "in", kunyomi: "no(mu)", origin_story: "食 (food) + 欠 (open mouth): opening the mouth to take in liquid — drink.", example_ja: "お茶を飲みます。", example_read: "ocha wo nomimasu.", example_en: "I drink tea.", difficulty: 'hard' },
+                    { kanji: '見', meaning: "See", onyomi: "ken", kunyomi: "mi(ru)", origin_story: "目 (eye) over 儿 (legs): a person looking — to see.", example_ja: "テレビを見ます。", example_read: "terebi wo mimasu.", example_en: "I watch TV.", difficulty: 'medium' },
+                    { kanji: '聞', meaning: "Hear", onyomi: "bun, mon", kunyomi: "ki(ku)", origin_story: "耳 (ear) inside 門 (gate): listening at the gate — to hear or to ask.", example_ja: "先生の話を聞きます。", example_read: "sensei no hanashi wo kikimasu.", example_en: "I listen to the teacher's speech.", difficulty: 'hard' },
+                    { kanji: '読', meaning: "Read", onyomi: "doku", kunyomi: "yo(mu)", origin_story: "言 (words) + 売 (sell): originally to recite aloud, now to read.", example_ja: "本を読みます。", example_read: "hon wo yomimasu.", example_en: "I read a book.", difficulty: 'hard' },
+                    { kanji: '書', meaning: "Write", onyomi: "sho", kunyomi: "ka(ku)", origin_story: "聿 (writing brush) below horizontal strokes — to write or document.", example_ja: "名前を書いてください。", example_read: "namae wo kaite kudasai.", example_en: "Please write your name.", difficulty: 'hard' },
+                    { kanji: '話', meaning: "Talk", onyomi: "wa", kunyomi: "hana(su)", origin_story: "言 (words) + 舌 (tongue): using words with the tongue — to talk.", example_ja: "日本語で話してください。", example_read: "nihongo de hanashite kudasai.", example_en: "Please speak in Japanese.", difficulty: 'hard' },
+                    { kanji: '買', meaning: "Buy", onyomi: "bai", kunyomi: "ka(u)", origin_story: "网 (net) + 貝 (shell currency): gathering currency — to buy.", example_ja: "スーパーで買います。", example_read: "suupaa de kaimasu.", example_en: "I buy at the supermarket.", difficulty: 'hard' },
+                    { kanji: '教', meaning: "Teach", onyomi: "kyou", kunyomi: "oshi(eru)", origin_story: "孝 (filial piety) + 攵 (strike): guiding with discipline — to teach.", example_ja: "先生が教えてくれます。", example_read: "sensei ga oshiete kuremasu.", example_en: "The teacher teaches me.", difficulty: 'hard' },
+                    { kanji: '休', meaning: "Rest", onyomi: "kyuu", kunyomi: "yasu(mu)", origin_story: "人 (person) + 木 (tree): a person leaning against a tree to rest.", example_ja: "今日は学校を休みます。", example_read: "kyou wa gakkou wo yasumimasu.", example_en: "I'm taking the day off school today.", difficulty: 'medium' },
+                    { kanji: '立', meaning: "Stand", onyomi: "ritsu", kunyomi: "ta(tsu)", origin_story: "A person standing on the ground, seen from the front — to stand or establish.", example_ja: "どうぞ立ってください。", example_read: "douzo tatte kudasai.", example_en: "Please stand up.", difficulty: 'easy' },
+                    { kanji: '座', meaning: "Sit", onyomi: "za", kunyomi: "suwa(ru)", origin_story: "广 (shelter) + 人人 (people) + 土 (ground): people sitting together — seat.", example_ja: "ここに座ってください。", example_read: "koko ni suwatte kudasai.", example_en: "Please sit here.", difficulty: 'hard' },
+                    { kanji: '今', meaning: "Now", onyomi: "kon", kunyomi: "ima", origin_story: "A lid containing a point within — capturing this very moment.", example_ja: "今、家にいます。", example_read: "ima, ie ni imasu.", example_en: "I'm at home right now.", difficulty: 'easy' },
+                    { kanji: '時', meaning: "Time", onyomi: "ji", kunyomi: "toki", origin_story: "日 (sun) + 寺 (temple): tracking the sun's position — time or hour.", example_ja: "今、何時ですか。", example_read: "ima, nanji desu ka.", example_en: "What time is it now?", difficulty: 'hard' },
+                    { kanji: '分', meaning: "Minute", onyomi: "bun, fun", kunyomi: "wa(karu)", origin_story: "八 (divide) + 刀 (knife): cutting apart — minute, part, or understand.", example_ja: "五分待ってください。", example_read: "gofun matte kudasai.", example_en: "Please wait five minutes.", difficulty: 'easy' },
+                    { kanji: '半', meaning: "Half", onyomi: "han", origin_story: "A vertical line cutting through — something split in two halves.", example_ja: "三時半に来てください。", example_read: "sanji-han ni kite kudasai.", example_en: "Please come at 3:30.", difficulty: 'easy' },
+                    { kanji: '午', meaning: "Noon", onyomi: "go", origin_story: "Originally a pictograph of a pestle; used as noon, the midpoint of the day.", example_ja: "午前に来てください。", example_read: "gozen ni kite kudasai.", example_en: "Please come in the morning.", difficulty: 'easy' },
+                    { kanji: '前', meaning: "Before", onyomi: "zen", kunyomi: "mae", origin_story: "月 (flesh) + 刂 (blade) under a cover: preparation — before or front.", example_ja: "学校の前にいます。", example_read: "gakkou no mae ni imasu.", example_en: "I'm in front of the school.", difficulty: 'medium' },
+                    { kanji: '後', meaning: "After", onyomi: "go", kunyomi: "ushi(ro), ato", origin_story: "彳 (step) + 幺 (thread) + 夊 (trailing foot): lagging behind — after.", example_ja: "後で電話します。", example_read: "ato de denwa shimasu.", example_en: "I'll call you later.", difficulty: 'medium' },
+                    { kanji: '去', meaning: "Past", onyomi: "kyo", kunyomi: "sa(ru)", origin_story: "土 (earth) + 厶 (private): leaving a place behind — past or to go away.", example_ja: "去年、日本に来ました。", example_read: "kyonen, nihon ni kimashita.", example_en: "I came to Japan last year.", difficulty: 'easy' },
+                    { kanji: '年', meaning: "Year", onyomi: "nen", kunyomi: "toshi", origin_story: "A person carrying harvested grain — one harvest cycle equals one year.", example_ja: "今年は何年ですか。", example_read: "kotoshi wa nannen desu ka.", example_en: "What year is it this year?", difficulty: 'medium' },
+                    { kanji: '毎', meaning: "Every", onyomi: "mai", origin_story: "A variation of 母 (mother) with 屮 (sprout): recurring like new growth — every.", example_ja: "毎日べんきょうします。", example_read: "mainichi benkyou shimasu.", example_en: "I study every day.", difficulty: 'medium' },
+                    { kanji: '何', meaning: "What", onyomi: "ka", kunyomi: "nani, nan", origin_story: "人 (person) + 可 (possible): a person carrying something unidentified — what? \"What is this?\"", example_ja: "今日は何をしますか。", example_read: "kyou wa nani wo shimasu ka.", example_en: "What will you do today?", difficulty: 'medium' },
+                    { kanji: '春', meaning: "Spring", onyomi: "shun", kunyomi: "haru", origin_story: "屯 (sprouting) + 日 (sun): buds opening under the spring sun.", example_ja: "春は花がきれいです。", example_read: "haru wa hana ga kirei desu.", example_en: "Flowers are beautiful in spring.", difficulty: 'medium' },
+                    { kanji: '夏', meaning: "Summer", onyomi: "ka", kunyomi: "natsu", origin_story: "A figure in a large ceremonial mask — ancient summer festival imagery.", example_ja: "夏は海に行きます。", example_read: "natsu wa umi ni ikimasu.", example_en: "I go to the beach in summer.", difficulty: 'hard' },
+                    { kanji: '秋', meaning: "Autumn", onyomi: "shuu", kunyomi: "aki", origin_story: "禾 (grain) + 火 (fire): drying grain by fire at harvest — autumn.", example_ja: "秋はすずしいです。", example_read: "aki wa suzushii desu.", example_en: "It's cool in autumn.", difficulty: 'medium' },
+                    { kanji: '冬', meaning: "Winter", onyomi: "tou", kunyomi: "fuyu", origin_story: "Simplified strokes suggesting ice crystals — the end of the seasonal cycle.", example_ja: "冬は寒いです。", example_read: "fuyu wa samui desu.", example_en: "Winter is cold.", difficulty: 'easy' },
+                    { kanji: '北', meaning: "North", onyomi: "hoku", kunyomi: "kita", origin_story: "Two figures back to back — originally to turn away, now indicating north.", example_ja: "駅は北にあります。", example_read: "eki wa kita ni arimasu.", example_en: "The station is to the north.", difficulty: 'easy' },
+                    { kanji: '南', meaning: "South", onyomi: "nan", kunyomi: "minami", origin_story: "A pictograph of a warm-toned bell instrument, associated with the south.", example_ja: "南はあたたかいです。", example_read: "minami wa atatakai desu.", example_en: "The south is warm.", difficulty: 'medium' },
+                    { kanji: '東', meaning: "East", onyomi: "tou", kunyomi: "higashi", origin_story: "日 (sun) + 木 (tree): the sun rising through the trees — east.", example_ja: "駅は東にあります。", example_read: "eki wa higashi ni arimasu.", example_en: "The station is to the east.", difficulty: 'medium' },
+                    { kanji: '西', meaning: "West", onyomi: "sei", kunyomi: "nishi", origin_story: "A bird returning to its nest at sunset — the direction of west.", example_ja: "西に行ってください。", example_read: "nishi ni itte kudasai.", example_en: "Please go west.", difficulty: 'medium' },
+                    { kanji: '雨', meaning: "Rain", onyomi: "u", kunyomi: "ame", origin_story: "Droplets falling from a cloud within a frame — a pictograph of rain.", example_ja: "今日は雨です。", example_read: "kyou wa ame desu.", example_en: "It's raining today.", difficulty: 'medium' },
+                    { kanji: '天', meaning: "Heaven", onyomi: "ten", origin_story: "一 (skyline) + 大 (person): the great expanse above a person — heaven.", example_ja: "今日は天気がいいです。", example_read: "kyou wa tenki ga ii desu.", example_en: "The weather is nice today.", difficulty: 'easy' },
+                    { kanji: '空', meaning: "Sky", onyomi: "kuu", kunyomi: "sora", origin_story: "穴 (cave) + 工 (craft): a hollowed-out space — sky or empty.", example_ja: "空が青いです。", example_read: "sora ga aoi desu.", example_en: "The sky is blue.", difficulty: 'medium' },
+                    { kanji: '気', meaning: "Spirit", onyomi: "ki", origin_story: "气 (rising steam) + 米 (rice): vapor from cooking — spirit or energy.", example_ja: "元気ですか。", example_read: "genki desu ka.", example_en: "Are you well?", difficulty: 'medium' },
+                    { kanji: '車', meaning: "Car", onyomi: "sha", kunyomi: "kuruma", origin_story: "A top-down view of an axle with wheels — a pictograph of a cart.", example_ja: "車で来ました。", example_read: "kuruma de kimashita.", example_en: "I came by car.", difficulty: 'medium' },
+                    { kanji: '電', meaning: "Electricity", onyomi: "den", origin_story: "雨 (rain) + 电 (flash): a bolt of lightning in the rain — electricity.", example_ja: "電車で行きます。", example_read: "densha de ikimasu.", example_en: "I'll go by train.", difficulty: 'hard' },
+                    { kanji: '馬', meaning: "Horse", onyomi: "ba", kunyomi: "uma", origin_story: "A pictograph of a horse showing its mane, body, and legs.", example_ja: "馬に乗りたいです。", example_read: "uma ni noritai desu.", example_en: "I want to ride a horse.", difficulty: 'hard' },
+                    { kanji: '魚', meaning: "Fish", onyomi: "gyo", kunyomi: "sakana", origin_story: "A pictograph of a fish — head, body, and tail visible in the form.", example_ja: "魚が好きです。", example_read: "sakana ga suki desu.", example_en: "I like fish.", difficulty: 'hard' },
+                    { kanji: '鳥', meaning: "Bird", onyomi: "chou", kunyomi: "tori", origin_story: "A pictograph of a bird — head, wings, and tail feathers.", example_ja: "鳥が空にいます。", example_read: "tori ga sora ni imasu.", example_en: "A bird is in the sky.", difficulty: 'hard' },
+                    { kanji: '語', meaning: "Language", onyomi: "go", kunyomi: "kata(ru)", origin_story: "言 (words) + 吾 (self, from 五 + 口): one's own words — language.", example_ja: "日本語が話せますか。", example_read: "nihongo ga hanasemasu ka.", example_en: "Can you speak Japanese?", difficulty: 'hard' },
+                    { kanji: '名', meaning: "Name", onyomi: "mei, myou", kunyomi: "na", origin_story: "夕 (evening) + 口 (mouth): calling one's name in the dark — name.", example_ja: "お名前は何ですか。", example_read: "onamae wa nan desu ka.", example_en: "What is your name?", difficulty: 'medium' },
+                    { kanji: '店', meaning: "Shop", onyomi: "ten", kunyomi: "mise", origin_story: "广 (building) + 占 (occupy): a place of business — shop or store.", example_ja: "その店は安いです。", example_read: "sono mise wa yasui desu.", example_en: "That shop is cheap.", difficulty: 'medium' },
+                    { kanji: '駅', meaning: "Station", onyomi: "eki", origin_story: "馬 (horse) + 尺 (measure): a horse-relay stop — station.", example_ja: "駅はどこですか。", example_read: "eki wa doko desu ka.", example_en: "Where is the station?", difficulty: 'hard' },
+                    { kanji: '道', meaning: "Road", onyomi: "dou", kunyomi: "michi", origin_story: "辶 (movement) + 首 (head): following a path with intent — road or way.", example_ja: "この道をまっすぐ行ってください。", example_read: "kono michi wo massugu itte kudasai.", example_en: "Please go straight down this road.", difficulty: 'hard' },
+                    { kanji: '社', meaning: "Company", onyomi: "sha", origin_story: "示 (altar) + 土 (earth): sacred ground — shrine or company.", example_ja: "会社はどこですか。", example_read: "kaisha wa doko desu ka.", example_en: "Where is the company?", difficulty: 'medium' },
+                    { kanji: '国', meaning: "Country", onyomi: "koku", kunyomi: "kuni", origin_story: "囗 (border) + 玉 (jewel): territory guarding a treasure — country.", example_ja: "どこの国から来ましたか。", example_read: "doko no kuni kara kimashita ka.", example_en: "What country are you from?", difficulty: 'medium' },
+                    { kanji: '白', meaning: "White", onyomi: "haku", kunyomi: "shiro", origin_story: "A pictograph of a bright, blank surface — white.", example_ja: "雪は白いです。", example_read: "yuki wa shiroi desu.", example_en: "Snow is white.", difficulty: 'easy' },
+                    { kanji: '黒', meaning: "Black", onyomi: "koku", kunyomi: "kuro", origin_story: "里 (village) + 灬 (fire): blackened by soot — black.", example_ja: "この猫は黒いです。", example_read: "kono neko wa kuroi desu.", example_en: "This cat is black.", difficulty: 'hard' },
+                    { kanji: '赤', meaning: "Red", onyomi: "seki", kunyomi: "aka", origin_story: "大 (big) + 火 (fire): the color of a great fire — red.", example_ja: "このりんごは赤いです。", example_read: "kono ringo wa akai desu.", example_en: "This apple is red.", difficulty: 'medium' },
+                    { kanji: '青', meaning: "Blue", onyomi: "sei", kunyomi: "ao", origin_story: "生 (growth) + 月 (moon): fresh young growth — blue or green.", example_ja: "空は青いです。", example_read: "sora wa aoi desu.", example_en: "The sky is blue.", difficulty: 'medium' },
+                    { kanji: '入', meaning: "Enter", onyomi: "nyuu", kunyomi: "i(ru)", origin_story: "Two strokes angling inward — to enter.", example_ja: "どうぞ中に入ってください。", example_read: "douzo naka ni haitte kudasai.", example_en: "Please come in.", difficulty: 'easy' },
+                    { kanji: '出', meaning: "Exit", onyomi: "shutsu", kunyomi: "de(ru)", origin_story: "Repeated mountain-like strokes suggesting emergence — to exit or go out.", example_ja: "外に出てください。", example_read: "soto ni dete kudasai.", example_en: "Please go outside.", difficulty: 'easy' },
+                    { kanji: '友', meaning: "Friend", onyomi: "yuu", kunyomi: "tomo", origin_story: "Two right hands (又) reaching together — friend.", example_ja: "友だちと話しました。", example_read: "tomodachi to hanashimashita.", example_en: "I talked with my friend.", difficulty: 'easy' },
+                    { kanji: '校', meaning: "School", onyomi: "kou", origin_story: "木 (tree) + 交 (cross/exchange): a place of exchange and learning — school.", example_ja: "学校は大きいです。", example_read: "gakkou wa ookii desu.", example_en: "The school is big.", difficulty: 'hard' },
+                    { kanji: '勉', meaning: "Study", onyomi: "ben", origin_story: "免 (effort) + 力 (power): applying strength through difficulty — exertion.", example_ja: "毎日勉強します。", example_read: "mainichi benkyou shimasu.", example_en: "I study every day.", difficulty: 'hard' },
+                    { kanji: '母', meaning: "Mother", onyomi: "bo", kunyomi: "haha", origin_story: "A woman figure with two dots for nurturing — a pictograph of mother.", example_ja: "母は家にいます。", example_read: "haha wa ie ni imasu.", example_en: "My mother is at home.", difficulty: 'easy' },
+                    { kanji: '父', meaning: "Father", onyomi: "fu", kunyomi: "chichi", origin_story: "A hand holding an axe — a pictograph of a father figure.", example_ja: "父は今、外にいます。", example_read: "chichi wa ima, soto ni imasu.", example_en: "My father is outside right now.", difficulty: 'easy' },
+                    { kanji: '学', meaning: "Study", onyomi: "gaku", kunyomi: "mana(bu)", origin_story: "子 (child) under a roof with reaching hands — to study or learning.", example_ja: "日本語を学んでいます。", example_read: "nihongo wo manande imasu.", example_en: "I am learning Japanese.", difficulty: 'medium' },
+                    { kanji: '先', meaning: "Ahead", onyomi: "sen", kunyomi: "saki", origin_story: "儿 (legs) stepping ahead of 土 (ground) — before or ahead.", example_ja: "先に行ってください。", example_read: "saki ni itte kudasai.", example_en: "Please go ahead.", difficulty: 'medium' },
+                    { kanji: '生', meaning: "Life", onyomi: "sei, shou", kunyomi: "nama", origin_story: "A sprout emerging from the soil — life, birth, or genuine.", example_ja: "私は学生です。", example_read: "watashi wa gakusei desu.", example_en: "I am a student.", difficulty: 'easy' },
                 ],
                 searchQuery: '',
                 showBookmarksOnly: false,
@@ -794,7 +801,7 @@
                 customCardModalOpen: false,
                 editingCard: null,
                 customCardForm: {
-                    kanji: '', meaning: '', reading: '', origin_story: '',
+                    kanji: '', meaning: '', onyomi: '', kunyomi: '', origin_story: '',
                     example_ja: '', example_read: '', example_en: '', difficulty: 'medium'
                 },
                 customCardErrors: {},
@@ -802,6 +809,7 @@
 
                 init() {
                     this.loadCustomCards();
+                    this.loadOverrides();
                     const saved = JSON.parse(localStorage.getItem('kanji-bookmarks') || '[]');
                     this.kanjis = this.kanjis.map(k => ({
                         ...k,
@@ -825,18 +833,23 @@
                 openAddCustomCard() {
                     this.editingCard = null;
                     this.customCardForm = {
-                        kanji: '', meaning: '', reading: '', origin_story: '',
+                        kanji: '', meaning: '', onyomi: '', kunyomi: '', origin_story: '',
                         example_ja: '', example_read: '', example_en: '', difficulty: 'medium'
                     };
                     this.customCardErrors = {};
                     this.customCardModalOpen = true;
                 },
-                openEditCustomCard(card) {
+                openEditCard(card) {
                     this.editingCard = card;
                     this.customCardForm = {
-                        kanji: card.kanji, meaning: card.meaning, reading: card.reading,
-                        origin_story: card.origin_story || '', example_ja: card.example_ja || '',
-                        example_read: card.example_read || '', example_en: card.example_en || '',
+                        kanji: card.kanji,
+                        meaning: card.meaning,
+                        onyomi: card.onyomi || '',
+                        kunyomi: card.kunyomi || '',
+                        origin_story: card.origin_story || '',
+                        example_ja: card.example_ja || '',
+                        example_read: card.example_read || '',
+                        example_en: card.example_en || '',
                         difficulty: card.difficulty
                     };
                     this.customCardErrors = {};
@@ -846,48 +859,55 @@
                     this.customCardErrors = {};
                     if (!this.customCardForm.kanji.trim()) this.customCardErrors.kanji = 'Required';
                     if (!this.customCardForm.meaning.trim()) this.customCardErrors.meaning = 'Required';
-                    if (!this.customCardForm.reading.trim()) this.customCardErrors.reading = 'Required';
-                    if (this.customCardForm.kanji.trim()) {
-                        const dup = this.kanjis.some(k =>
-                            k.kanji === this.customCardForm.kanji.trim() &&
-                            (!this.editingCard || k.id !== this.editingCard.id)
-                        );
+                    if (!this.customCardForm.onyomi.trim()) this.customCardErrors.onyomi = 'Required';
+                    if (!this.editingCard && this.customCardForm.kanji.trim()) {
+                        const dup = this.kanjis.some(k => k.kanji === this.customCardForm.kanji.trim());
                         if (dup) this.customCardErrors.kanji = 'This kanji already exists';
                     }
                     return Object.keys(this.customCardErrors).length === 0;
                 },
                 saveCustomCard() {
                     if (!this.validateCustomCardForm()) return;
+                    const data = {
+                        kanji: this.customCardForm.kanji.trim(),
+                        meaning: this.customCardForm.meaning.trim(),
+                        onyomi: this.customCardForm.onyomi.trim(),
+                        kunyomi: this.customCardForm.kunyomi.trim(),
+                        origin_story: this.customCardForm.origin_story.trim(),
+                        example_ja: this.customCardForm.example_ja.trim(),
+                        example_read: this.customCardForm.example_read.trim(),
+                        example_en: this.customCardForm.example_en.trim(),
+                        difficulty: this.customCardForm.difficulty
+                    };
                     if (this.editingCard) {
-                        const idx = this.kanjis.findIndex(k => k.id === this.editingCard.id);
-                        if (idx !== -1) {
-                            Object.assign(this.kanjis[idx], {
-                                kanji: this.customCardForm.kanji.trim(),
-                                meaning: this.customCardForm.meaning.trim(),
-                                reading: this.customCardForm.reading.trim(),
-                                origin_story: this.customCardForm.origin_story.trim(),
-                                example_ja: this.customCardForm.example_ja.trim(),
-                                example_read: this.customCardForm.example_read.trim(),
-                                example_en: this.customCardForm.example_en.trim(),
-                                difficulty: this.customCardForm.difficulty
-                            });
+                        const idx = this.kanjis.findIndex(k => k === this.editingCard);
+                        if (idx !== -1) Object.assign(this.kanjis[idx], data);
+                        if (this.editingCard.isCustom) {
+                            this.saveCustomCards();
+                        } else {
+                            this.saveOverride(data.kanji, data);
                         }
                     } else {
                         this.kanjis.push({
                             id: 'custom_' + Date.now(),
-                            kanji: this.customCardForm.kanji.trim(),
-                            meaning: this.customCardForm.meaning.trim(),
-                            reading: this.customCardForm.reading.trim(),
-                            origin_story: this.customCardForm.origin_story.trim(),
-                            example_ja: this.customCardForm.example_ja.trim(),
-                            example_read: this.customCardForm.example_read.trim(),
-                            example_en: this.customCardForm.example_en.trim(),
-                            difficulty: this.customCardForm.difficulty,
+                            ...data,
                             isCustom: true, bookmarked: false, flipped: false
                         });
+                        this.saveCustomCards();
                     }
-                    this.saveCustomCards();
                     this.customCardModalOpen = false;
+                },
+                loadOverrides() {
+                    const overrides = JSON.parse(localStorage.getItem('kanji-overrides') || '{}');
+                    Object.entries(overrides).forEach(([char, data]) => {
+                        const idx = this.kanjis.findIndex(k => k.kanji === char);
+                        if (idx !== -1) Object.assign(this.kanjis[idx], data);
+                    });
+                },
+                saveOverride(char, data) {
+                    const overrides = JSON.parse(localStorage.getItem('kanji-overrides') || '{}');
+                    overrides[char] = data;
+                    localStorage.setItem('kanji-overrides', JSON.stringify(overrides));
                 },
                 deleteCustomCard(card) {
                     this.kanjis = this.kanjis.filter(k => k.id !== card.id);
